@@ -1,0 +1,440 @@
+{
+	"info": {
+		"_postman_id": "smkn4-bogor-api-collection",
+		"name": "SMKN 4 Bogor - Galeri Sekolah API",
+		"description": "Collection lengkap untuk testing API Galeri Sekolah SMKN 4 Bogor",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login Admin",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"admin123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						},
+						"description": "Login sebagai admin untuk mendapatkan token API"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/auth/profile",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"profile"
+							]
+						},
+						"description": "Mendapatkan profile user yang sedang login (perlu token)"
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/auth/logout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						},
+						"description": "Logout dan hapus token (perlu token)"
+					},
+					"response": []
+				},
+				{
+					"name": "Register User Baru",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"User Baru\",\n    \"username\": \"userbaru\",\n    \"email\": \"userbaru@example.com\",\n    \"password\": \"password123\",\n    \"password_confirmation\": \"password123\",\n    \"phone\": \"08123456789\",\n    \"address\": \"Jl. Contoh No. 123\",\n    \"role\": \"user\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						},
+						"description": "Register user baru (hanya admin yang bisa, perlu token)"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoint untuk authentication dan user management"
+		},
+		{
+			"name": "Public Gallery Endpoints",
+			"item": [
+				{
+					"name": "Get All Galleries",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/galleries?per_page=12",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"galleries"
+							],
+							"query": [
+								{
+									"key": "per_page",
+									"value": "12"
+								}
+							]
+						},
+						"description": "Mendapatkan semua galeri (public, tidak perlu token)"
+					},
+					"response": []
+				},
+				{
+					"name": "Search Galleries",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/galleries/search?q=acara&category=1&per_page=10",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"galleries",
+								"search"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "acara"
+								},
+								{
+									"key": "category",
+									"value": "1"
+								},
+								{
+									"key": "per_page",
+									"value": "10"
+								}
+							]
+						},
+						"description": "Search galeri berdasarkan keyword dan kategori (public, tidak perlu token)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Gallery Detail",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/galleries/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"galleries",
+								"1"
+							]
+						},
+						"description": "Mendapatkan detail galeri berdasarkan ID (public, tidak perlu token)"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoint public untuk melihat galeri (tidak perlu login)"
+		},
+		{
+			"name": "Admin Gallery Management",
+			"item": [
+				{
+					"name": "Create New Gallery",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Judul Galeri Baru",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Deskripsi galeri yang baru dibuat",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "category_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "location",
+									"value": "Lokasi acara",
+									"type": "text"
+								},
+								{
+									"key": "event_date",
+									"value": "2025-01-20",
+									"type": "text"
+								},
+								{
+									"key": "is_featured",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/galleries",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"galleries"
+							]
+						},
+						"description": "Membuat galeri baru (perlu token admin)"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Gallery",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "_method",
+									"value": "PUT",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "Judul yang Diupdate",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Deskripsi yang diupdate",
+									"type": "text"
+								},
+								{
+									"key": "category_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "location",
+									"value": "Lokasi yang diupdate",
+									"type": "text"
+								},
+								{
+									"key": "event_date",
+									"value": "2025-01-25",
+									"type": "text"
+								},
+								{
+									"key": "is_featured",
+									"value": "0",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/galleries/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"galleries",
+								"1"
+							]
+						},
+						"description": "Update galeri yang sudah ada (perlu token admin)"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Gallery",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{auth_token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/galleries/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"galleries",
+								"1"
+							]
+						},
+						"description": "Hapus galeri berdasarkan ID (perlu token admin)"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoint untuk admin mengelola galeri (perlu token)"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Auto-save token after login",
+					"if (pm.request.url.path.includes('auth/login') && pm.request.method === 'POST') {",
+					"    pm.sendRequest(pm.request, function (err, response) {",
+					"        if (!err && response.code === 200) {",
+					"            const responseJson = response.json();",
+					"            if (responseJson.success && responseJson.data && responseJson.data.token) {",
+					"                pm.environment.set('auth_token', responseJson.data.token);",
+					"                console.log('Token saved automatically:', responseJson.data.token);",
+					"            }",
+					"        }",
+					"    });",
+					"}"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000/api",
+			"type": "string"
+		},
+		{
+			"key": "auth_token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
