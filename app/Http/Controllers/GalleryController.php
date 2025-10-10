@@ -254,14 +254,39 @@ class GalleryController extends Controller
     }
 
     /**
-
-    } catch (\Exception $e) {
-        \Log::error('Gagal menghapus gallery: ' . $e->getMessage(), [
-            'id' => $gallery->id,
-            'trace' => $e->getTraceAsString()
-                'success' => false,
-                'message' => 'Error deleting gallery: ' . $e->getMessage()
-            ], 500);
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Gallery $gallery)
+    {
+        try {
+            // Check authorization
+            $this->authorize('delete', $gallery);
+            
+            \Log::info('Menghapus gallery', ['id' => $gallery->id, 'user' => auth()->id()]);
+            
+            // Delete image files
+            if ($gallery->image && Storage::disk('public')->exists($gallery->image)) {
+                Storage::disk('public')->delete($gallery->image);
+                \Log::info('Gambar gallery dihapus', ['path' => $gallery->image]);
+            }
+            
+            if ($gallery->thumbnail && $gallery->thumbnail !== $gallery->image && Storage::disk('public')->exists($gallery->thumbnail)) {
+                Storage::disk('public')->delete($gallery->thumbnail);
+                \Log::info('Thumbnail gallery dihapus', ['path' => $gallery->thumbnail]);
+            }
+            
+            $gallery->delete();
+            \Log::info('Gallery berhasil dihapus', ['id' => $gallery->id]);
+            
+            return redirect()->route('gallery.index')->with('success', 'Galeri berhasil dihapus');
+            
+        } catch (\Exception $e) {
+            \Log::error('Gagal menghapus gallery: ' . $e->getMessage(), [
+                'id' => $gallery->id,
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            return redirect()->route('gallery.index')->with('error', 'Gagal menghapus galeri: ' . $e->getMessage());
         }
     }
 

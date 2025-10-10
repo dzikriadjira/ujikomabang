@@ -84,36 +84,47 @@
         .bg-gray-900 .text-white { color: #374151 !important; }
         .bg-gray-900 .text-gray-400 { color: #6B7280 !important; }
         .bg-gray-900 .border-gray-800 { border-color: #D1D5DB !important; }
+        
+        /* Mobile menu animation */
+        #mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+        }
+        
+        #mobile-menu:not(.hidden) {
+            max-height: 800px;
+        }
     </style>
 </head>
 <body class="bg-gray-50">
     <!-- Navigation Bar -->
-    <nav class="bg-white shadow-sm border-b border-gray-200">
+    <nav class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <!-- Logo -->
                 <div class="flex items-center">
                     <a href="/" class="flex items-center space-x-2">
-                        <img src="{{ asset('images/logok4.png') }}" alt="SMKN 4 Bogor" class="h-10 w-10">
-                        <span class="text-xl font-bold text-gray-900">SMKN 4 Bogor</span>
+                        <img src="{{ asset('images/logok4.png') }}" alt="SMKN 4 Bogor" class="h-8 w-8 sm:h-10 sm:w-10">
+                        <span class="text-base sm:text-xl font-bold text-gray-900">SMKN 4 Bogor</span>
                     </a>
                 </div>
 
-                <!-- Navigation Links -->
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="/" class="text-gray-900 font-medium transition-colors duration-200" style="hover:color: var(--primary-blue);">BERANDA</a>
-                    <a href="{{ route('gallery.index') }}" class="text-gray-900 font-medium transition-colors duration-200" style="hover:color: var(--primary-blue);">GALLERY</a>
-                    <a href="{{ route('jurusan.index') }}" class="font-medium" style="color: var(--primary-blue);">JURUSAN</a>
+                <!-- Navigation Links - Desktop -->
+                <div class="hidden lg:flex items-center space-x-8">
+                    <a href="/" class="text-gray-900 font-medium transition-colors duration-200 hover:text-blue-600">BERANDA</a>
+                    <a href="{{ route('gallery.index') }}" class="text-gray-900 font-medium transition-colors duration-200 hover:text-blue-600">GALLERY</a>
+                    <a href="{{ route('jurusan.index') }}" class="font-medium text-blue-600">JURUSAN</a>
                     <!-- Profil Dropdown -->
                     <div class="dropdown relative">
-                        <button class="nav-link flex items-center text-gray-900 font-medium transition-colors duration-200" style="hover:color: var(--primary-blue);">
+                        <button class="nav-link flex items-center text-gray-900 font-medium transition-colors duration-200 hover:text-blue-600">
                             PROFIL <i class="fas fa-chevron-down ml-1 text-xs"></i>
                         </button>
                         <div class="dropdown-menu absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50 border border-gray-200 hidden">
-                            <a href="{{ route('profil.fasilitas') }}" class="block px-4 py-2 text-sm text-gray-700 transition-colors duration-200" style="hover:background: var(--accent-blue); hover:color: var(--primary-blue);">
+                            <a href="{{ route('profil.fasilitas') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-200">
                                 <i class="fas fa-building mr-2"></i>Fasilitas
                             </a>
-                            <a href="{{ route('profil.prestasi') }}" class="block px-4 py-2 text-sm text-gray-700 transition-colors duration-200" style="hover:background: var(--accent-blue); hover:color: var(--primary-blue);">
+                            <a href="{{ route('profil.prestasi') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors duration-200">
                                 <i class="fas fa-trophy mr-2"></i>Prestasi
                             </a>
                         </div>
@@ -121,10 +132,38 @@
                 </div>
 
                 <!-- Mobile menu button -->
-                <div class="md:hidden">
-                    <button type="button" class="text-gray-900 transition-colors duration-200" style="hover:color: var(--primary-blue);">
-                        <i class="fas fa-bars text-xl"></i>
+                <div class="lg:hidden">
+                    <button type="button" id="mobile-menu-button" class="text-gray-900 hover:text-blue-600 p-2 rounded-md transition-colors duration-200">
+                        <i class="fas fa-bars text-2xl"></i>
                     </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden lg:hidden pb-4">
+                <div class="flex flex-col space-y-2">
+                    <a href="/" class="block px-4 py-3 text-gray-900 hover:bg-blue-50 hover:text-blue-600 font-medium rounded-md transition-colors duration-200">
+                        <i class="fas fa-home mr-2"></i>BERANDA
+                    </a>
+                    
+                    <a href="{{ route('gallery.index') }}" class="block px-4 py-3 text-gray-900 hover:bg-purple-50 hover:text-purple-600 font-medium rounded-md transition-colors duration-200">
+                        <i class="fas fa-images mr-2"></i>GALLERY
+                    </a>
+                    
+                    <a href="{{ route('jurusan.index') }}" class="block px-4 py-3 bg-blue-50 text-blue-600 font-medium rounded-md">
+                        <i class="fas fa-graduation-cap mr-2"></i>JURUSAN
+                    </a>
+                    
+                    <!-- Mobile Profil Section -->
+                    <div class="border-t border-gray-200 pt-2">
+                        <div class="px-4 py-2 text-sm font-semibold text-gray-500 uppercase">Profil</div>
+                        <a href="{{ route('profil.fasilitas') }}" class="block px-4 py-3 text-gray-900 hover:bg-blue-50 hover:text-blue-600 font-medium rounded-md transition-colors duration-200">
+                            <i class="fas fa-building mr-2"></i>Fasilitas
+                        </a>
+                        <a href="{{ route('profil.prestasi') }}" class="block px-4 py-3 text-gray-900 hover:bg-purple-50 hover:text-purple-600 font-medium rounded-md transition-colors duration-200">
+                            <i class="fas fa-trophy mr-2"></i>Prestasi
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -260,6 +299,49 @@
     </footer>
 
     <script>
+        // Initialize mobile menu functionality
+        function initializeMobileMenu() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                    
+                    // Toggle icon between bars and times
+                    const icon = mobileMenuButton.querySelector('i');
+                    if (mobileMenu.classList.contains('hidden')) {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    } else {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-times');
+                    }
+                });
+                
+                // Close mobile menu when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (!mobileMenuButton.contains(event.target) && !mobileMenu.contains(event.target)) {
+                        mobileMenu.classList.add('hidden');
+                        const icon = mobileMenuButton.querySelector('i');
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+                
+                // Close mobile menu when clicking a link
+                const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+                mobileMenuLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        mobileMenu.classList.add('hidden');
+                        const icon = mobileMenuButton.querySelector('i');
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    });
+                });
+            }
+        }
+
         // Initialize dropdown functionality (same pattern as other pages)
         function initializeDropdowns() {
             const dropdowns = document.querySelectorAll('.dropdown');
@@ -292,6 +374,9 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Enable navbar dropdowns
             initializeDropdowns();
+            
+            // Enable mobile menu
+            initializeMobileMenu();
 
             // Animate cards on scroll
             const cards = document.querySelectorAll('.card-hover');

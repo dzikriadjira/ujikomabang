@@ -100,47 +100,65 @@
         .hero-bg.transitioning {
             transition: background-image 0.8s ease-in-out;
         }
+
+        /* Mobile menu animation */
+        #mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+        }
+
+        #mobile-menu:not(.hidden) {
+            max-height: 500px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 640px) {
+            .hero-bg {
+                height: 70vh;
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-50">
     <!-- Top Contact Bar -->
     <div style="background: var(--gradient-light);" class="text-gray-700">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center py-2">
-                <div class="flex items-center space-x-6 text-sm">
+            <div class="flex flex-col sm:flex-row justify-between items-center py-2 sm:py-2 gap-2 sm:gap-0">
+                <div class="flex flex-col sm:flex-row items-center space-y-1 sm:space-y-0 sm:space-x-6 text-xs sm:text-sm">
                     <div class="flex items-center">
                         <i class="fas fa-phone mr-2 text-blue-600"></i>
                         <span>(0251) 123 456</span>
                     </div>
                     <div class="flex items-center">
                         <i class="fas fa-envelope mr-2 text-blue-600"></i>
-                        <span>info@smkn4bogor.sch.id</span>
+                        <span class="truncate">info@smkn4bogor.sch.id</span>
                     </div>
                 </div>
-                <div class="flex items-center space-x-4 text-sm">
-                    <span>Informasi Sekolah</span>
+                <div class="flex items-center space-x-4 text-xs sm:text-sm">
+                    <span class="hidden sm:inline">Informasi Sekolah</span>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Navigation Bar -->
-    <nav class="bg-white shadow-sm border-b border-gray-200">
+    <nav class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-4">
                 <!-- Logo -->
                 <div class="flex items-center">
-                    <div class="h-16 w-16 mr-4 shadow-lg rounded-xl overflow-hidden bg-white flex items-center justify-center">
+                    <div class="h-12 w-12 sm:h-16 sm:w-16 mr-3 sm:mr-4 shadow-lg rounded-xl overflow-hidden bg-white flex items-center justify-center">
                         <img src="{{ asset('images/logok4.png') }}" alt="Logo SMKN 4 Bogor" class="h-full w-full object-contain p-1">
                     </div>
                     <div>
-                        <h1 class="text-2xl font-bold text-gray-900">SMK NEGRI 4</h1>
-                        <p class="text-sm text-gray-600">KOTA BOGOR</p>
+                        <h1 class="text-lg sm:text-2xl font-bold text-gray-900">SMK NEGRI 4</h1>
+                        <p class="text-xs sm:text-sm text-gray-600">KOTA BOGOR</p>
                     </div>
                 </div>
 
-                <!-- Navigation Links -->
-                <div class="hidden md:flex items-center space-x-8">
+                <!-- Navigation Links - Desktop -->
+                <div class="hidden lg:flex items-center space-x-8">
                     <a href="/" class="nav-link text-gray-900 hover:text-blue-600 font-medium transition-colors duration-200">BERANDA</a>
                     
                     <a href="{{ route('gallery.index') }}" class="nav-link text-gray-900 hover:text-purple-600 font-medium transition-colors duration-200">GALLERY</a>
@@ -164,10 +182,38 @@
                 </div>
 
                 <!-- Mobile menu button -->
-                <div class="md:hidden">
-                    <button type="button" class="text-gray-900 hover:text-blue-600">
-                        <i class="fas fa-bars text-xl"></i>
+                <div class="lg:hidden">
+                    <button type="button" id="mobile-menu-button" class="text-gray-900 hover:text-blue-600 p-2 rounded-md transition-colors duration-200">
+                        <i class="fas fa-bars text-2xl"></i>
                     </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden lg:hidden pb-4">
+                <div class="flex flex-col space-y-2">
+                    <a href="/" class="block px-4 py-3 text-gray-900 hover:bg-blue-50 hover:text-blue-600 font-medium rounded-md transition-colors duration-200">
+                        <i class="fas fa-home mr-2"></i>BERANDA
+                    </a>
+                    
+                    <a href="{{ route('gallery.index') }}" class="block px-4 py-3 text-gray-900 hover:bg-purple-50 hover:text-purple-600 font-medium rounded-md transition-colors duration-200">
+                        <i class="fas fa-images mr-2"></i>GALLERY
+                    </a>
+                    
+                    <a href="{{ route('jurusan.index') }}" class="block px-4 py-3 text-gray-900 hover:bg-green-50 hover:text-green-600 font-medium rounded-md transition-colors duration-200">
+                        <i class="fas fa-graduation-cap mr-2"></i>JURUSAN
+                    </a>
+                    
+                    <!-- Mobile Profil Section -->
+                    <div class="border-t border-gray-200 pt-2">
+                        <div class="px-4 py-2 text-sm font-semibold text-gray-500 uppercase">Profil</div>
+                        <a href="{{ route('profil.fasilitas') }}" class="block px-4 py-3 text-gray-900 hover:bg-blue-50 hover:text-blue-600 font-medium rounded-md transition-colors duration-200">
+                            <i class="fas fa-building mr-2"></i>Fasilitas
+                        </a>
+                        <a href="{{ route('profil.prestasi') }}" class="block px-4 py-3 text-gray-900 hover:bg-purple-50 hover:text-purple-600 font-medium rounded-md transition-colors duration-200">
+                            <i class="fas fa-trophy mr-2"></i>Prestasi
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -352,12 +398,43 @@
     <script>
         // Mobile menu toggle
         document.addEventListener('DOMContentLoaded', function() {
-            const mobileMenuButton = document.querySelector('[data-mobile-menu]');
-            const mobileMenu = document.querySelector('[data-mobile-menu-items]');
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
             
             if (mobileMenuButton && mobileMenu) {
                 mobileMenuButton.addEventListener('click', function() {
                     mobileMenu.classList.toggle('hidden');
+                    
+                    // Toggle icon between bars and times
+                    const icon = mobileMenuButton.querySelector('i');
+                    if (mobileMenu.classList.contains('hidden')) {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    } else {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-times');
+                    }
+                });
+                
+                // Close mobile menu when clicking outside
+                document.addEventListener('click', function(event) {
+                    if (!mobileMenuButton.contains(event.target) && !mobileMenu.contains(event.target)) {
+                        mobileMenu.classList.add('hidden');
+                        const icon = mobileMenuButton.querySelector('i');
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+                
+                // Close mobile menu when clicking a link
+                const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+                mobileMenuLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        mobileMenu.classList.add('hidden');
+                        const icon = mobileMenuButton.querySelector('i');
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    });
                 });
             }
 

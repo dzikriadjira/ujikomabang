@@ -43,6 +43,17 @@
             visibility: visible;
             transform: translateY(0);
         }
+
+        /* Mobile menu animation */
+        #mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+        }
+
+        #mobile-menu:not(.hidden) {
+            max-height: 800px;
+        }
     </style>
     <!-- Blue Theme Overrides -->
     <style>
@@ -97,22 +108,22 @@
 </head>
 <body class="bg-gray-50">
     <!-- Navigation Bar -->
-    <nav class="bg-white shadow-sm border-b border-gray-200">
+    <nav class="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-4">
                 <!-- Logo -->
                 <div class="flex items-center">
-                    <div class="h-16 w-16 mr-4 shadow-lg rounded-xl overflow-hidden bg-white flex items-center justify-center">
+                    <div class="h-12 w-12 sm:h-16 sm:w-16 mr-3 sm:mr-4 shadow-lg rounded-xl overflow-hidden bg-white flex items-center justify-center">
                         <img src="{{ asset('images/logok4.png') }}" alt="Logo SMKN 4 Bogor" class="h-full w-full object-contain p-1">
                     </div>
                     <div>
-                        <h1 class="text-2xl font-bold text-gray-900">SMK NEGRI 4</h1>
-                        <p class="text-sm text-gray-600">KOTA BOGOR</p>
+                        <h1 class="text-lg sm:text-2xl font-bold text-gray-900">SMK NEGRI 4</h1>
+                        <p class="text-xs sm:text-sm text-gray-600">KOTA BOGOR</p>
                     </div>
                 </div>
 
-                <!-- Navigation Links -->
-                <div class="hidden md:flex items-center space-x-8">
+                <!-- Navigation Links - Desktop -->
+                <div class="hidden lg:flex items-center space-x-8">
                     <a href="/" class="nav-link text-gray-900 hover:text-cyan-600 font-medium transition-colors duration-200">BERANDA</a>
                     
                     <a href="{{ route('gallery.index') }}" class="nav-link text-gray-900 hover:text-cyan-600 font-medium transition-colors duration-200">GALLERY</a>
@@ -158,10 +169,66 @@
                 </div>
 
                 <!-- Mobile menu button -->
-                <div class="md:hidden">
-                    <button type="button" class="text-gray-900 hover:text-cyan-600">
-                        <i class="fas fa-bars text-xl"></i>
+                <div class="lg:hidden">
+                    <button type="button" id="mobile-menu-button" class="text-gray-900 hover:text-cyan-600 p-2 rounded-md transition-colors duration-200">
+                        <i class="fas fa-bars text-2xl"></i>
                     </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden lg:hidden pb-4">
+                <div class="flex flex-col space-y-2">
+                    <a href="/" class="block px-4 py-3 text-gray-900 hover:bg-blue-50 hover:text-blue-600 font-medium rounded-md transition-colors duration-200">
+                        <i class="fas fa-home mr-2"></i>BERANDA
+                    </a>
+                    
+                    <a href="{{ route('gallery.index') }}" class="block px-4 py-3 text-gray-900 hover:bg-purple-50 hover:text-purple-600 font-medium rounded-md transition-colors duration-200">
+                        <i class="fas fa-images mr-2"></i>GALLERY
+                    </a>
+                    
+                    <!-- Mobile Jurusan Section -->
+                    <div class="border-t border-gray-200 pt-2">
+                        <div class="px-4 py-2 text-sm font-semibold text-gray-500 uppercase">Jurusan</div>
+                        <a href="{{ route('jurusan.index', ['jurusan' => 'pplg']) }}" class="block px-4 py-3 text-gray-900 hover:bg-blue-50 hover:text-blue-600 font-medium rounded-md transition-colors duration-200">
+                            PPLG
+                        </a>
+                        <a href="{{ route('jurusan.index', ['jurusan' => 'otomotif']) }}" class="block px-4 py-3 text-gray-900 hover:bg-blue-50 hover:text-blue-600 font-medium rounded-md transition-colors duration-200">
+                            Teknik Otomotif
+                        </a>
+                        <a href="{{ route('jurusan.index', ['jurusan' => 'tpfl']) }}" class="block px-4 py-3 text-gray-900 hover:bg-blue-50 hover:text-blue-600 font-medium rounded-md transition-colors duration-200">
+                            TPFL
+                        </a>
+                        <a href="{{ route('jurusan.index', ['jurusan' => 'tjkt']) }}" class="block px-4 py-3 text-gray-900 hover:bg-blue-50 hover:text-blue-600 font-medium rounded-md transition-colors duration-200">
+                            TJKT
+                        </a>
+                    </div>
+                    
+                    <!-- Mobile Profil Section -->
+                    <div class="border-t border-gray-200 pt-2">
+                        <div class="px-4 py-2 text-sm font-semibold text-gray-500 uppercase">Profil</div>
+                        <a href="{{ route('profil.fasilitas') }}" class="block px-4 py-3 text-gray-900 hover:bg-blue-50 hover:text-blue-600 font-medium rounded-md transition-colors duration-200">
+                            <i class="fas fa-building mr-2"></i>Fasilitas
+                        </a>
+                        <a href="{{ route('profil.prestasi') }}" class="block px-4 py-3 text-gray-900 hover:bg-purple-50 hover:text-purple-600 font-medium rounded-md transition-colors duration-200">
+                            <i class="fas fa-trophy mr-2"></i>Prestasi
+                        </a>
+                    </div>
+
+                    <!-- Mobile Admin Links -->
+                    @auth
+                    <div class="border-t border-gray-200 pt-2">
+                        <a href="{{ route('dashboard') }}" class="block px-4 py-3 text-gray-900 hover:bg-green-50 hover:text-green-600 font-medium rounded-md transition-colors duration-200">
+                            <i class="fas fa-tachometer-alt mr-2"></i>DASHBOARD
+                        </a>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="w-full text-left block px-4 py-3 text-gray-900 hover:bg-red-50 hover:text-red-600 font-medium rounded-md transition-colors duration-200">
+                                <i class="fas fa-sign-out-alt mr-2"></i>LOGOUT
+                            </button>
+                        </form>
+                    </div>
+                    @endauth
                 </div>
             </div>
         </div>
@@ -251,9 +318,13 @@
         <div class="bg-white rounded-lg shadow overflow-hidden hover:shadow-lg transition-shadow duration-200">
             <div class="relative group">
                 <img class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-200" 
-                     src="{{ url('storage/'.$gallery->image) }}" 
+                     src="{{ asset('storage/'.$gallery->image) }}" 
                      alt="{{ $gallery->title }}"
                      onerror="this.src='{{ asset('images/logok4.png') }}'; this.alt='Gambar tidak tersedia';">
+                     
+                @if(config('app.debug'))
+                <!-- Debug: {{ asset('storage/'.$gallery->image) }} -->
+                @endif
                 
                 <!-- Featured Badge -->
                 @if($gallery->is_featured)
@@ -275,19 +346,19 @@
                 @endif
 
                 <!-- Click to view full size -->
-                <div class="absolute inset-0 cursor-pointer" onclick="openImageModal('{{ url('storage/'.$gallery->image) }}', '{{ $gallery->title }}')" aria-label="Lihat foto full size"></div>
+                <div class="absolute inset-0 cursor-pointer z-0" onclick="openImageModal('{{ asset('storage/'.$gallery->image) }}', '{{ $gallery->title }}')" aria-label="Lihat foto full size"></div>
                 
                 <!-- Quick Actions Overlay (only for authenticated users) -->
                 @auth
-                <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center pointer-events-none">
-                    <div class="flex space-x-2 pointer-events-auto">
+                <div class="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center z-10">
+                    <div class="flex space-x-3">
                         <a href="{{ route('gallery.edit', $gallery) }}" 
-                           class="p-2 bg-white rounded-full text-gray-800 hover:bg-gray-100 transition-colors duration-200">
-                            <i class="fas fa-edit"></i>
+                           class="p-3 bg-white rounded-full text-blue-600 hover:bg-blue-50 transition-colors duration-200 shadow-lg z-20">
+                            <i class="fas fa-edit text-lg"></i>
                         </a>
-                        <button onclick="deleteGallery({{ $gallery->id }})" 
-                                class="p-2 bg-white rounded-full text-gray-800 hover:bg-gray-100 transition-colors duration-200">
-                            <i class="fas fa-trash"></i>
+                        <button onclick="event.stopPropagation(); deleteGallery({{ $gallery->id }})" 
+                                class="p-3 bg-white rounded-full text-red-600 hover:bg-red-50 transition-colors duration-200 shadow-lg z-20">
+                            <i class="fas fa-trash text-lg"></i>
                         </button>
                     </div>
                 </div>
@@ -534,9 +605,55 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize dropdown menus
     initializeDropdowns();
     
+    // Initialize mobile menu
+    initializeMobileMenu();
+    
 // Note: Galleries are loaded from Laravel controller, not from API
 // The data is already available in the Blade template
 });
+
+// Initialize mobile menu functionality
+function initializeMobileMenu() {
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    if (mobileMenuButton && mobileMenu) {
+        mobileMenuButton.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+            
+            // Toggle icon between bars and times
+            const icon = mobileMenuButton.querySelector('i');
+            if (mobileMenu.classList.contains('hidden')) {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            } else {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
+            }
+        });
+        
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!mobileMenuButton.contains(event.target) && !mobileMenu.contains(event.target)) {
+                mobileMenu.classList.add('hidden');
+                const icon = mobileMenuButton.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            }
+        });
+        
+        // Close mobile menu when clicking a link
+        const mobileMenuLinks = mobileMenu.querySelectorAll('a, button[type="submit"]');
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                mobileMenu.classList.add('hidden');
+                const icon = mobileMenuButton.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
+            });
+        });
+    }
+}
 
 // Initialize dropdown functionality
 function initializeDropdowns() {
@@ -574,27 +691,38 @@ function initializeDropdowns() {
 // Delete gallery function (uses standard form submission)
 function deleteGallery(galleryId) {
     if (confirm('Apakah Anda yakin ingin menghapus galeri ini?')) {
-        // Create a form and submit it
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = `/gallery/${galleryId}`;
-        
-        // Add CSRF token
-        const csrfToken = document.createElement('input');
-        csrfToken.type = 'hidden';
-        csrfToken.name = '_token';
-        csrfToken.value = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        form.appendChild(csrfToken);
-        
-        // Add method override for DELETE
-        const methodField = document.createElement('input');
-        methodField.type = 'hidden';
-        methodField.name = '_method';
-        methodField.value = 'DELETE';
-        form.appendChild(methodField);
-        
-        document.body.appendChild(form);
-        form.submit();
+        try {
+            // Create a form and submit it
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = `/gallery/${galleryId}`;
+            
+            // Add CSRF token
+            const csrfToken = document.createElement('input');
+            csrfToken.type = 'hidden';
+            csrfToken.name = '_token';
+            const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+            if (!csrfMeta) {
+                console.error('CSRF token not found');
+                alert('Error: CSRF token tidak ditemukan. Silakan refresh halaman.');
+                return;
+            }
+            csrfToken.value = csrfMeta.getAttribute('content');
+            form.appendChild(csrfToken);
+            
+            // Add method override for DELETE
+            const methodField = document.createElement('input');
+            methodField.type = 'hidden';
+            methodField.name = '_method';
+            methodField.value = 'DELETE';
+            form.appendChild(methodField);
+            
+            document.body.appendChild(form);
+            form.submit();
+        } catch (error) {
+            console.error('Error deleting gallery:', error);
+            alert('Terjadi kesalahan saat menghapus galeri. Silakan coba lagi.');
+        }
     }
 }
 </script>
