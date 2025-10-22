@@ -137,6 +137,7 @@
                 </div>
             </div>
         </a>
+<<<<<<< HEAD
 
         <!-- Interactions Management -->
         <a href="{{ route('admin.interactions.index') }}" class="bg-white overflow-hidden shadow-lg rounded-xl hover:shadow-xl transition-all duration-300 transform hover:scale-105 border border-gray-100">
@@ -154,6 +155,8 @@
                 </div>
             </div>
         </a>
+=======
+>>>>>>> 40faa748db351c71c2c78aef2a8e8edac43a1828
     </div>
 
     <!-- Quick Actions -->

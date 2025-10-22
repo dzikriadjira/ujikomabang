@@ -7,8 +7,11 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\JurusanController;
+<<<<<<< HEAD
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\CommentController;
+=======
+>>>>>>> 40faa748db351c71c2c78aef2a8e8edac43a1828
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +42,7 @@ Route::get('/profil/prestasi', [App\Http\Controllers\PublicPrestasiController::c
 // Public gallery routes (can be accessed without login)
 Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.index');
 Route::get('/gallery/search', [GalleryController::class, 'search'])->name('gallery.search');
+<<<<<<< HEAD
 Route::get('/gallery/{gallery}', [GalleryController::class, 'show'])->whereNumber('gallery')->name('gallery.show');
 
 // Public interaction routes (like, dislike, comment - no login required)
@@ -46,6 +50,8 @@ Route::post('/gallery/{gallery}/like', [LikeController::class, 'toggleLike'])->w
 Route::post('/gallery/{gallery}/dislike', [LikeController::class, 'toggleDislike'])->whereNumber('gallery')->name('gallery.dislike');
 Route::post('/gallery/{gallery}/comment', [CommentController::class, 'store'])->whereNumber('gallery')->name('comment.store');
 Route::delete('/comment/{comment}', [CommentController::class, 'destroy'])->whereNumber('comment')->name('comment.destroy');
+=======
+>>>>>>> 40faa748db351c71c2c78aef2a8e8edac43a1828
 
 // Authentication routes (Admin only - hidden from public)
 Route::get('/admin/login', [AuthController::class, 'showLogin'])->name('login');
@@ -87,10 +93,13 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // User Management
     Route::resource('users', \App\Http\Controllers\Admin\UserController::class)->names('admin.users');
     
+<<<<<<< HEAD
     // Interactions Management
     Route::get('/admin/interactions', [\App\Http\Controllers\Admin\InteractionController::class, 'index'])->name('admin.interactions.index');
     Route::get('/admin/interactions/{gallery}', [\App\Http\Controllers\Admin\InteractionController::class, 'show'])->name('admin.interactions.show');
     
+=======
+>>>>>>> 40faa748db351c71c2c78aef2a8e8edac43a1828
     // Categories management
     Route::resource('categories', CategoryController::class);
     Route::post('/categories/{category}/toggle-active', [CategoryController::class, 'toggleActive'])->whereNumber('category')->name('categories.toggle-active');

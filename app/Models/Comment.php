@@ -10,7 +10,11 @@ class Comment extends Model
 {
     use HasFactory;
 
+<<<<<<< HEAD
     protected $fillable = ['content', 'user_id', 'gallery_id', 'guest_name', 'parent_id'];
+=======
+    protected $fillable = ['content', 'user_id', 'gallery_id'];
+>>>>>>> 40faa748db351c71c2c78aef2a8e8edac43a1828
 
     /**
      * Get the user that owns the comment
@@ -27,6 +31,7 @@ class Comment extends Model
     {
         return $this->belongsTo(Gallery::class);
     }
+<<<<<<< HEAD
 
     /**
      * Get the comment author name (user or guest)
@@ -43,4 +48,6 @@ class Comment extends Model
     {
         return $this->hasMany(Comment::class, 'parent_id');
     }
+=======
+>>>>>>> 40faa748db351c71c2c78aef2a8e8edac43a1828
 }

@@ -4,13 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Gallery;
 use App\Models\Like;
+<<<<<<< HEAD
 use App\Models\Dislike;
+=======
+>>>>>>> 40faa748db351c71c2c78aef2a8e8edac43a1828
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LikeController extends Controller
 {
     /**
+<<<<<<< HEAD
      * Toggle like for a gallery (using session for guests)
      */
     public function toggleLike(Request $request, Gallery $gallery)
@@ -128,5 +132,44 @@ class LikeController extends Controller
         }
         
         return $count;
+=======
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
+>>>>>>> 40faa748db351c71c2c78aef2a8e8edac43a1828
     }
 }

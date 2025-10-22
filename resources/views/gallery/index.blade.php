@@ -369,7 +369,11 @@
                 <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ $gallery->title }}</h3>
                 
                 @if($gallery->description)
+<<<<<<< HEAD
                 <p class="text-sm text-gray-600 mb-3">{{ Str::limit($gallery->description, 80) }}</p>
+=======
+                <p class="text-sm text-gray-600 mb-3">{{ $gallery->description }}</p>
+>>>>>>> 40faa748db351c71c2c78aef2a8e8edac43a1828
                 @endif
                 
                 <div class="flex items-center justify-between text-sm text-gray-500 mb-2">
@@ -400,6 +404,7 @@
                 </div>
                 @endif
                 
+<<<<<<< HEAD
                 <!-- Like, Dislike, Comment Section -->
                 <div class="flex items-center justify-between border-t pt-3 mt-3">
                     <div class="flex items-center space-x-4">
@@ -427,6 +432,10 @@
                     <div class="text-xs text-gray-400">
                         {{ $gallery->created_at->diffForHumans() }}
                     </div>
+=======
+                <div class="text-xs text-gray-400">
+                        {{ $gallery->created_at->diffForHumans() }}
+>>>>>>> 40faa748db351c71c2c78aef2a8e8edac43a1828
                 </div>
             </div>
         </div>
@@ -750,6 +759,7 @@ function deleteGallery(galleryId) {
         }
     }
 }
+<<<<<<< HEAD
 
 // Like/Dislike functionality
 document.addEventListener('DOMContentLoaded', function() {
@@ -840,5 +850,9 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- jQuery for compatibility -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+=======
+</script>
+
+>>>>>>> 40faa748db351c71c2c78aef2a8e8edac43a1828
 </body>
 </html>

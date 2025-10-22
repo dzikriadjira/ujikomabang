@@ -71,6 +71,7 @@ class Gallery extends Model
      */
     public function comments()
     {
+<<<<<<< HEAD
         return $this->hasMany(Comment::class)->whereNull('parent_id')->with('user', 'replies');
     }
 
@@ -112,6 +113,9 @@ class Gallery extends Model
     public function isDislikedByUser($userId)
     {
         return $this->dislikes()->where('user_id', $userId)->exists();
+=======
+        return $this->hasMany(Comment::class)->latest();
+>>>>>>> 40faa748db351c71c2c78aef2a8e8edac43a1828
     }
 
     /**
