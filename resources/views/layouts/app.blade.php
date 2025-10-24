@@ -301,7 +301,7 @@
                         <i class="fas fa-tags w-4 h-4 mr-2"></i>
                         <span>Kategori</span>
                     </a>
-                    <a href="{{ route('register') }}" class="flex items-center px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('register') ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600' }} transition-all duration-200">
+                    <a href="{{ route('admin.register') }}" class="flex items-center px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('admin.register') ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600' }} transition-all duration-200">
                         <i class="fas fa-user-plus w-4 h-4 mr-2"></i>
                         <span>Tambah User</span>
                     </a>
@@ -407,7 +407,7 @@
                             <i class="fas fa-tags w-5 text-center mr-3 text-gray-500"></i>
                         Kategori
                     </a>
-                    <a href="{{ route('register') }}" class="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-all duration-150">
+                    <a href="{{ route('admin.register') }}" class="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-all duration-150">
                         <i class="fas fa-user-plus w-4 h-4 mr-2 text-blue-500"></i>
                         Tambah User
                     </a>

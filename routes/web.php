@@ -3,15 +3,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\JurusanController;
-<<<<<<< HEAD
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\CommentController;
-=======
->>>>>>> 40faa748db351c71c2c78aef2a8e8edac43a1828
 
 /*
 |--------------------------------------------------------------------------
@@ -42,21 +40,26 @@ Route::get('/profil/prestasi', [App\Http\Controllers\PublicPrestasiController::c
 // Public gallery routes (can be accessed without login)
 Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.index');
 Route::get('/gallery/search', [GalleryController::class, 'search'])->name('gallery.search');
-<<<<<<< HEAD
 Route::get('/gallery/{gallery}', [GalleryController::class, 'show'])->whereNumber('gallery')->name('gallery.show');
 
-// Public interaction routes (like, dislike, comment - no login required)
-Route::post('/gallery/{gallery}/like', [LikeController::class, 'toggleLike'])->whereNumber('gallery')->name('gallery.like');
-Route::post('/gallery/{gallery}/dislike', [LikeController::class, 'toggleDislike'])->whereNumber('gallery')->name('gallery.dislike');
-Route::post('/gallery/{gallery}/comment', [CommentController::class, 'store'])->whereNumber('gallery')->name('comment.store');
-Route::delete('/comment/{comment}', [CommentController::class, 'destroy'])->whereNumber('comment')->name('comment.destroy');
-=======
->>>>>>> 40faa748db351c71c2c78aef2a8e8edac43a1828
+// User Authentication routes (for public users)
+Route::get('/login', [UserAuthController::class, 'showLoginForm'])->name('user.login');
+Route::post('/login', [UserAuthController::class, 'login'])->name('user.login.post');
+Route::get('/register', [UserAuthController::class, 'showRegisterForm'])->name('user.register');
+Route::post('/register', [UserAuthController::class, 'register'])->name('user.register.post');
+Route::post('/logout', [UserAuthController::class, 'logout'])->name('logout');
 
-// Authentication routes (Admin only - hidden from public)
-Route::get('/admin/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/admin/login', [AuthController::class, 'login'])->name('login.post');
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+// Admin Authentication routes (hidden from public)
+Route::get('/admin/login', [AuthController::class, 'showLogin'])->name('admin.login');
+Route::post('/admin/login', [AuthController::class, 'login'])->name('admin.login.post');
+
+// Protected interaction routes (require login)
+Route::middleware(['auth'])->group(function () {
+    Route::post('/gallery/{gallery}/like', [LikeController::class, 'toggleLike'])->whereNumber('gallery')->name('gallery.like');
+    Route::post('/gallery/{gallery}/dislike', [LikeController::class, 'toggleDislike'])->whereNumber('gallery')->name('gallery.dislike');
+    Route::post('/gallery/{gallery}/comment', [CommentController::class, 'store'])->whereNumber('gallery')->name('comment.store');
+    Route::delete('/comment/{comment}', [CommentController::class, 'destroy'])->whereNumber('comment')->name('comment.destroy');
+});
 
 // Protected routes (require authentication)
 Route::middleware(['auth'])->group(function () {
@@ -73,10 +76,10 @@ Route::middleware(['auth'])->group(function () {
         return redirect()->route('profile');
     })->name('profile.show');
     
-    // Admin-only registration routes
+    // Admin-only registration routes (for creating new admin users)
     Route::middleware(['admin.only'])->group(function () {
-        Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-        Route::post('/register', [AuthController::class, 'register'])->name('register.post');
+        Route::get('/admin/register', [AuthController::class, 'showRegister'])->name('admin.register');
+        Route::post('/admin/register', [AuthController::class, 'register'])->name('admin.register.post');
     });
     
     // Gallery management routes (require authentication)
@@ -91,15 +94,14 @@ Route::middleware(['auth'])->group(function () {
 // Admin routes (require admin role)
 Route::middleware(['auth', 'admin'])->group(function () {
     // User Management
+    Route::get('users/admins', [\App\Http\Controllers\Admin\UserController::class, 'admins'])->name('admin.users.admins');
+    Route::get('users/regular', [\App\Http\Controllers\Admin\UserController::class, 'regularUsers'])->name('admin.users.regular');
     Route::resource('users', \App\Http\Controllers\Admin\UserController::class)->names('admin.users');
     
-<<<<<<< HEAD
     // Interactions Management
     Route::get('/admin/interactions', [\App\Http\Controllers\Admin\InteractionController::class, 'index'])->name('admin.interactions.index');
     Route::get('/admin/interactions/{gallery}', [\App\Http\Controllers\Admin\InteractionController::class, 'show'])->name('admin.interactions.show');
     
-=======
->>>>>>> 40faa748db351c71c2c78aef2a8e8edac43a1828
     // Categories management
     Route::resource('categories', CategoryController::class);
     Route::post('/categories/{category}/toggle-active', [CategoryController::class, 'toggleActive'])->whereNumber('category')->name('categories.toggle-active');

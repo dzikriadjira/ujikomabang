@@ -137,7 +137,6 @@
                 </div>
             </div>
         </a>
-<<<<<<< HEAD
 
         <!-- Interactions Management -->
         <a href="{{ route('admin.interactions.index') }}" class="bg-white overflow-hidden shadow-lg rounded-xl hover:shadow-xl transition-all duration-300 transform hover:scale-105 border border-gray-100">
@@ -155,8 +154,6 @@
                 </div>
             </div>
         </a>
-=======
->>>>>>> 40faa748db351c71c2c78aef2a8e8edac43a1828
     </div>
 
     <!-- Quick Actions -->
@@ -186,7 +183,7 @@
                     Tambah Prestasi
                 </a>
                 @if(\App\Helpers\AdminHelper::isCurrentUserSuperAdmin())
-                <a href="{{ route('register') }}" 
+                <a href="{{ route('admin.register') }}" 
                    class="inline-flex items-center justify-center px-6 py-3 rounded-lg text-white font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg" 
                    style="background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%); box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);">
                     <i class="fas fa-user-plus mr-2"></i>

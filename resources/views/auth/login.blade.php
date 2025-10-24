@@ -358,7 +358,7 @@
                 
                 // AJAX request
                 $.ajax({
-                    url: '{{ route("login.post") }}',
+                    url: '{{ route("admin.login.post") }}',
                     type: 'POST',
                     data: {
                         username: username,

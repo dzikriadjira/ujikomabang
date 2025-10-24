@@ -32,15 +32,27 @@ class UserController extends Controller
      */
     public function index()
     {
-        // Staff can only see active users, admin can see all
-        $query = User::latest();
-        
-        if (auth()->user()->role === 'staff') {
-            $query->where('is_active', true);
-        }
-        
-        $users = $query->paginate(10);
+        // Get all users
+        $users = User::latest()->paginate(10);
         return view('admin.users.index', compact('users'));
+    }
+    
+    /**
+     * Display admin users only
+     */
+    public function admins()
+    {
+        $users = User::where('role', 'admin')->latest()->paginate(10);
+        return view('admin.users.admins', compact('users'));
+    }
+    
+    /**
+     * Display regular users only
+     */
+    public function regularUsers()
+    {
+        $users = User::where('role', 'user')->latest()->paginate(10);
+        return view('admin.users.users', compact('users'));
     }
 
     /**

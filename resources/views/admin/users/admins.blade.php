@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Kelola Pengguna - SMKN 4 Bogor')
+@section('title', 'Kelola Admin - SMKN 4 Bogor')
 
 @section('content')
 <div class="min-h-screen bg-gray-50">
@@ -10,11 +10,11 @@
             <div class="mb-8">
                 <div class="flex justify-between items-center">
                     <div>
-                        <h1 class="text-3xl font-bold text-gray-900">Kelola Pengguna</h1>
-                        <p class="text-gray-600 mt-2">Kelola data pengguna dan akses sistem</p>
+                        <h1 class="text-3xl font-bold text-gray-900">Kelola Admin</h1>
+                        <p class="text-gray-600 mt-2">Kelola data pengguna admin sistem</p>
                     </div>
-                    <a href="{{ route('admin.users.create') }}" class="text-white px-6 py-3 rounded-lg transition-all duration-300 transform hover:scale-105" style="background: var(--gradient-primary); box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);">
-                        <i class="fas fa-plus mr-2"></i>Tambah Pengguna
+                    <a href="{{ route('admin.register') }}" class="text-white px-6 py-3 rounded-lg transition-all duration-300 transform hover:scale-105" style="background: var(--gradient-primary); box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);">
+                        <i class="fas fa-plus mr-2"></i>Tambah Admin
                     </a>
                 </div>
             </div>
@@ -23,15 +23,15 @@
             <div class="mb-6">
                 <div class="border-b border-gray-200">
                     <nav class="-mb-px flex space-x-8">
-                        <a href="{{ route('admin.users.index') }}" class="{{ request()->routeIs('admin.users.index') && !request()->routeIs('admin.users.admins') && !request()->routeIs('admin.users.regular') ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                        <a href="{{ route('admin.users.index') }}" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
                             <i class="fas fa-users mr-2"></i>
                             Semua Pengguna
                         </a>
-                        <a href="{{ route('admin.users.admins') }}" class="{{ request()->routeIs('admin.users.admins') ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                        <a href="{{ route('admin.users.admins') }}" class="border-blue-500 text-blue-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
                             <i class="fas fa-user-shield mr-2"></i>
                             Admin
                         </a>
-                        <a href="{{ route('admin.users.regular') }}" class="{{ request()->routeIs('admin.users.regular') ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300' }} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
+                        <a href="{{ route('admin.users.regular') }}" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
                             <i class="fas fa-user mr-2"></i>
                             User
                         </a>
@@ -57,8 +57,8 @@
                             <tr class="hover:bg-gray-50">
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
-                                        <div class="flex-shrink-0 h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
-                                            <i class="fas fa-user text-blue-600"></i>
+                                        <div class="flex-shrink-0 h-10 w-10 rounded-full bg-green-100 flex items-center justify-center">
+                                            <i class="fas fa-user-shield text-green-600"></i>
                                         </div>
                                         <div class="ml-4">
                                             <div class="text-sm font-medium text-gray-900">{{ $user->name }}</div>
@@ -73,35 +73,31 @@
                                     {{ $user->email }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    @if($user->role === 'admin')
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                            Admin
-                                        </span>
-                                    @else
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                                            User
-                                        </span>
-                                    @endif
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                        Admin
+                                    </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <div class="flex justify-end space-x-2">
                                         <a href="{{ route('admin.users.edit', $user->id) }}" class="text-blue-600 hover:text-blue-900 mr-3">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus pengguna ini?')">
+                                        @if($user->id !== auth()->id())
+                                        <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus admin ini?')">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="text-red-600 hover:text-red-900">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </form>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>
                             @empty
                             <tr>
                                 <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500">
-                                    Belum ada data pengguna
+                                    Belum ada data admin
                                 </td>
                             </tr>
                             @endforelse
