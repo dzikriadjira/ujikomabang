@@ -25,7 +25,7 @@
             font-family: 'Poppins', sans-serif;
         }
         .gradient-bg {
-            background: #60A5FA;
+            background: var(--gradient-primary);
         }
         .card-hover {
             transition: all 0.3s ease;
@@ -199,13 +199,7 @@
                             <p class="text-lg opacity-90">{{ $jurusan['fullName'] }}</p>
                         </div>
                         <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                            @if($jurusan['image'])
-                                <img src="{{ asset($jurusan['image']) }}" alt="{{ $jurusan['nama'] }}" class="w-12 h-12 object-contain rounded-lg">
-                            @else
-                                <div class="w-12 h-12 bg-white rounded-lg flex items-center justify-center">
-                                    <i class="{{ $jurusan['icon'] }} text-2xl {{ $jurusan['textColor'] }}"></i>
-                                </div>
-                            @endif
+                            <img src="{{ url('/images/logok4.png') }}" alt="{{ $jurusan['nama'] }}" class="w-12 h-12 object-contain rounded-lg">
                         </div>
                     </div>
                 </div>

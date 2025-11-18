@@ -48,4 +48,30 @@ class Jurusan extends Model
     {
         return $query->orderBy('sort_order')->orderBy('name');
     }
+
+    public function getImageUrlAttribute()
+    {
+        $path = $this->image;
+        if (!empty($path)) {
+            $storageReal = storage_path('app/public/' . ltrim($path, '/'));
+            if (file_exists($storageReal)) {
+                return '/storage/' . ltrim($path, '/');
+            }
+            if (file_exists(public_path($path))) {
+                return '/' . ltrim($path, '/');
+            }
+        }
+
+        $id = strtolower(str_replace(' ', '', $this->name ?? ''));
+        $conventional = 'images/jurusan/' . $id . '.png';
+        if ($id && file_exists(public_path($conventional))) {
+            return '/' . ltrim($conventional, '/');
+        }
+
+        if (file_exists(public_path('images/logok4.png'))) {
+            return '/images/logok4.png';
+        }
+
+        return null;
+    }
 }

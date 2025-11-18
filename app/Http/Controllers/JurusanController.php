@@ -24,12 +24,36 @@ class JurusanController extends Controller
         // Transform database data to match view format
         $jurusanList = [];
         foreach ($jurusans as $jurusan) {
+            // Resolve image path from storage to web path + provide sensible defaults
+            $imagePathWeb = null;
+            if (!empty($jurusan->image)) {
+                $storageRealPath = storage_path('app/public/' . ltrim($jurusan->image, '/'));
+                if (file_exists($storageRealPath)) {
+                    $imagePathWeb = '/storage/' . ltrim($jurusan->image, '/');
+                } elseif (file_exists(public_path($jurusan->image))) {
+                    // already under public
+                    $imagePathWeb = '/' . ltrim($jurusan->image, '/');
+                }
+            }
+
+            // If still no image, try a conventional public path by id
+            if ($imagePathWeb === null) {
+                $id = strtolower(str_replace(' ', '', $jurusan->name));
+                $conventional = 'images/jurusan/' . $id . '.png';
+                if (file_exists(public_path($conventional))) {
+                    $imagePathWeb = '/' . ltrim($conventional, '/');
+                } elseif (file_exists(public_path('images/logok4.png'))) {
+                    // final default logo
+                    $imagePathWeb = '/images/logok4.png';
+                }
+            }
+
             $jurusanList[] = [
                 'id' => strtolower(str_replace(' ', '', $jurusan->name)),
                 'nama' => $jurusan->name,
                 'fullName' => $jurusan->full_name,
                 'description' => $jurusan->description,
-                'image' => $jurusan->image,
+                'image' => $imagePathWeb,
                 'icon' => $jurusan->icon,
                 'color' => $this->getColorClass($jurusan->color),
                 'bgColor' => $this->getBgColorClass($jurusan->color),

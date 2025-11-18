@@ -157,7 +157,11 @@
                             <p class="text-lg opacity-90">{{ $jurusan['fullName'] }}</p>
                         </div>
                         <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                            <i class="{{ $jurusan['icon'] }} text-2xl"></i>
+                            @if(!empty($jurusan['image']))
+                                <img src="{{ url($jurusan['image']) }}" alt="{{ $jurusan['nama'] }}" class="w-12 h-12 object-contain rounded-lg" onerror="this.onerror=null;this.src='{{ url('/images/logok4.png') }}'">
+                            @else
+                                <i class="{{ $jurusan['icon'] }} text-2xl"></i>
+                            @endif
                         </div>
                     </div>
                 </div>

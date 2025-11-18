@@ -48,8 +48,8 @@
             <div class="bg-white shadow-lg rounded-xl border border-gray-200 overflow-hidden">
                 <!-- Image Section -->
                 <div class="relative h-64 bg-gray-200">
-                    @if($jurusan->image)
-                        <img src="{{ asset($jurusan->image) }}" alt="{{ $jurusan->name }}" class="w-full h-full object-cover">
+                    @if($jurusan->image_url)
+                        <img src="{{ asset($jurusan->image_url) }}" alt="{{ $jurusan->name }}" class="w-full h-full object-cover">
                     @else
                         <div class="w-full h-full flex items-center justify-center">
                             <i class="{{ $jurusan->icon }} text-6xl text-gray-400"></i>

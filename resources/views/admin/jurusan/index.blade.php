@@ -58,13 +58,7 @@
                 <div class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200 jurusan-card">
                     <!-- Image -->
                     <div class="relative h-48 bg-gray-200">
-                        @if($jurusan->image)
-                            <img src="{{ asset($jurusan->image) }}" alt="{{ $jurusan->name }}" class="w-full h-full object-cover">
-                        @else
-                            <div class="w-full h-full flex items-center justify-center">
-                                <i class="{{ $jurusan->icon }} text-4xl text-gray-400"></i>
-                            </div>
-                        @endif
+                        <img src="{{ url($jurusan->image_url ? $jurusan->image_url : '/images/logok4.png') }}" alt="{{ $jurusan->name }}" class="w-full h-full object-cover" onerror="this.onerror=null;this.src='{{ url('/images/logok4.png') }}'">
                         
                         <!-- Featured Badge -->
                         @if($jurusan->is_featured)
@@ -78,6 +72,11 @@
 
                     <!-- Content -->
                     <div class="p-6">
+                        @if($jurusan->image_url)
+                            <div class="text-xs text-gray-400 mb-1">src: {{ $jurusan->image_url }}</div>
+                        @else
+                            <div class="text-xs text-gray-400 mb-1">src: (none)</div>
+                        @endif
                         <h3 class="text-xl font-bold text-gray-900 mb-2">{{ $jurusan->name }}</h3>
                         <p class="text-gray-600 text-sm mb-3">{{ $jurusan->full_name }}</p>
                         <p class="text-gray-700 text-sm mb-4 line-clamp-3">{{ $jurusan->description }}</p>

@@ -82,10 +82,10 @@
                         <!-- Gambar -->
                         <div class="md:col-span-2">
                             <label for="image" class="block text-sm font-medium text-gray-700 mb-2">Gambar Jurusan</label>
-                            @if($jurusan->image)
+                            @if($jurusan->image_url)
                                 <div class="mb-3">
                                     <p class="text-sm text-gray-600 mb-2">Gambar saat ini:</p>
-                                    <img src="{{ asset($jurusan->image) }}" alt="{{ $jurusan->name }}" class="max-w-xs h-auto rounded-md shadow-sm">
+                                    <img src="{{ asset($jurusan->image_url) }}" alt="{{ $jurusan->name }}" class="max-w-xs h-auto rounded-md shadow-sm">
                                 </div>
                             @endif
                             <input type="file" id="image" name="image" accept="image/*"
