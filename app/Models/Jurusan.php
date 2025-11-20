@@ -68,8 +68,8 @@ class Jurusan extends Model
             return '/' . ltrim($conventional, '/');
         }
 
-        if (file_exists(public_path('images/logok4.png'))) {
-            return '/images/logok4.png';
+        if (file_exists(public_path('images/lg_pplg-removebg-preview.png'))) {
+            return '/images/lg_pplg-removebg-preview.png';
         }
 
         return null;

@@ -44,7 +44,7 @@
             <div class="bg-white shadow-lg rounded-lg p-6 md:p-8">
                 <h1 class="text-3xl font-bold text-gray-900 mb-6 text-center">Edit Fasilitas</h1>
 
-                <form action="{{ route('admin.fasilitas.update', $fasilitass) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ url('admin/fasilitas/' . $fasilitas->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     

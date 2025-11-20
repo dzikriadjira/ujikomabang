@@ -218,7 +218,7 @@
                     <!-- Logo Container -->
                     <div class="mx-auto h-16 w-16 flex items-center justify-center mb-4 relative">
                         <div class="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full opacity-20 blur-lg"></div>
-                        <img src="/images/logok4.png" alt="Logo SMK 4 Bogor" class="h-full w-full object-contain logo-glow relative z-10">
+                        <img src="{{ asset('images/lg_pplg-removebg-preview.png') }}" alt="Logo SMK 4 Bogor" class="h-full w-full object-contain logo-glow relative z-10">
                     </div>
                     
                     <!-- Title Section -->

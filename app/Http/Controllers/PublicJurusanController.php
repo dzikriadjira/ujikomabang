@@ -34,26 +34,11 @@ class PublicJurusanController extends Controller
             
             $colors = $colorMap[$jurusan->color] ?? $colorMap['blue'];
             
-            // Resolve image path to a publicly accessible URL + sensible defaults
-            $imagePathWeb = null;
-            if (!empty($jurusan->image)) {
-                $storageRealPath = storage_path('app/public/' . ltrim($jurusan->image, '/'));
-                if (file_exists($storageRealPath))) {
-                    $imagePathWeb = '/storage/' . ltrim($jurusan->image, '/');
-                } elseif (file_exists(public_path($jurusan->image))) {
-                    // already under public
-                    $imagePathWeb = '/' . ltrim($jurusan->image, '/');
-                }
-            }
-
-            if ($imagePathWeb === null) {
-                $id = strtolower($jurusan->name);
-                $conventional = 'images/jurusan/' . $id . '.png';
-                if (file_exists(public_path($conventional))) {
-                    $imagePathWeb = '/' . ltrim($conventional, '/');
-                } elseif (file_exists(public_path('images/logok4.png'))) {
-                    $imagePathWeb = '/images/logok4.png';
-                }
+            // Gunakan accessor model untuk mendapatkan URL gambar
+            $imagePathWeb = $jurusan->image_url;
+            if ($imagePathWeb === null && file_exists(public_path('images/lg_pplg-removebg-preview.png')))
+            {
+                $imagePathWeb = '/images/lg_pplg-removebg-preview.png';
             }
 
             return [

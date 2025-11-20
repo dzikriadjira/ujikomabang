@@ -105,7 +105,7 @@
                 <!-- Logo -->
                 <div class="flex items-center">
                     <a href="/" class="flex items-center space-x-2">
-                        <img src="{{ asset('images/logok4.png') }}" alt="SMKN 4 Bogor" class="h-8 w-8 sm:h-10 sm:w-10">
+                        <img src="{{ asset('images/lg_pplg-removebg-preview.png') }}" alt="SMKN 4 Bogor" class="h-8 w-8 sm:h-10 sm:w-10">
                         <span class="text-base sm:text-xl font-bold text-gray-900">SMKN 4 Bogor</span>
                     </a>
                 </div>
@@ -199,7 +199,11 @@
                             <p class="text-lg opacity-90">{{ $jurusan['fullName'] }}</p>
                         </div>
                         <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                            <img src="{{ url('/images/logok4.png') }}" alt="{{ $jurusan['nama'] }}" class="w-12 h-12 object-contain rounded-lg">
+                            @if(!empty($jurusan['image']))
+                                <img src="{{ url($jurusan['image']) }}" alt="{{ $jurusan['nama'] }}" class="w-12 h-12 object-contain rounded-lg" onerror="this.onerror=null;this.src='{{ url('/images/lg_pplg-removebg-preview.png') }}'">
+                            @else
+                                <img src="{{ url('/images/lg_pplg-removebg-preview.png') }}" alt="{{ $jurusan['nama'] }}" class="w-12 h-12 object-contain rounded-lg">
+                            @endif
                         </div>
                     </div>
                 </div>

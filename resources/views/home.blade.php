@@ -149,7 +149,7 @@
                 <!-- Logo -->
                 <div class="flex items-center">
                     <div class="h-12 w-12 sm:h-16 sm:w-16 mr-3 sm:mr-4 shadow-lg rounded-xl overflow-hidden bg-white flex items-center justify-center">
-                        <img src="{{ asset('images/logok4.png') }}" alt="Logo SMKN 4 Bogor" class="h-full w-full object-contain p-1">
+                        <img src="{{ asset('images/lg_pplg-removebg-preview.png') }}" alt="Logo SMKN 4 Bogor" class="h-full w-full object-contain p-1">
                     </div>
                     <div>
                         <h1 class="text-lg sm:text-2xl font-bold text-gray-900">SMK NEGRI 4</h1>

@@ -91,7 +91,7 @@
                 <!-- Logo -->
                 <div class="flex items-center">
                     <a href="/" class="flex items-center space-x-2">
-                        <img src="{{ asset('images/logok4.png') }}" alt="SMKN 4 Bogor" class="h-10 w-10">
+                        <img src="{{ asset('images/lg_pplg-removebg-preview.png') }}" alt="SMKN 4 Bogor" class="h-10 w-10">
                         <span class="text-xl font-bold text-gray-900">SMKN 4 Bogor</span>
                     </a>
                 </div>
@@ -158,7 +158,7 @@
                         </div>
                         <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
                             @if(!empty($jurusan['image']))
-                                <img src="{{ url($jurusan['image']) }}" alt="{{ $jurusan['nama'] }}" class="w-12 h-12 object-contain rounded-lg" onerror="this.onerror=null;this.src='{{ url('/images/logok4.png') }}'">
+                                <img src="{{ url($jurusan['image']) }}" alt="{{ $jurusan['nama'] }}" class="w-12 h-12 object-contain rounded-lg" onerror="this.onerror=null;this.src='{{ url('/images/lg_pplg-removebg-preview.png') }}'">
                             @else
                                 <i class="{{ $jurusan['icon'] }} text-2xl"></i>
                             @endif

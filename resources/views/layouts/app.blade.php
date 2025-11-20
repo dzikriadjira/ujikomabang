@@ -266,7 +266,7 @@
                 <!-- Logo Section -->
                 <div class="flex items-center space-x-3">
                     <div class="flex-shrink-0">
-                        <img src="{{ asset('images/logok4.png') }}" alt="SMKN 4 Bogor" class="h-10 w-10 rounded-lg">
+                        <img src="{{ asset('images/lg_pplg-removebg-preview.png') }}" alt="SMKN 4 Bogor" class="h-10 w-10 rounded-lg">
                     </div>
                     <div class="hidden sm:block">
                         <h1 class="text-lg font-bold text-gray-900 leading-tight">Galeri Sekolah</h1>
