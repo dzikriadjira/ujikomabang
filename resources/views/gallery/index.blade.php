@@ -173,8 +173,17 @@
                         @endif
                     @endauth
                     <a href="{{ route('gallery.index') }}" class="nav-link text-blue-600 font-medium transition-colors duration-200 border-b-2 border-blue-600">GALLERY</a>
-                    <a href="#" class="nav-link text-gray-900 hover:text-cyan-600 font-medium transition-colors duration-200">JURUSAN</a>
-                    <a href="#" class="nav-link text-gray-900 hover:text-cyan-600 font-medium transition-colors duration-200">PROFIL</a>
+                    <a href="{{ route('jurusan.index') }}" class="nav-link text-gray-900 hover:text-cyan-600 font-medium transition-colors duration-200">JURUSAN</a>
+                    <div class="relative group">
+                        <button class="nav-link text-gray-900 hover:text-cyan-600 font-medium transition-colors duration-200 flex items-center">
+                            PROFIL
+                            <i class="fas fa-chevron-down ml-1 text-xs"></i>
+                        </button>
+                        <div class="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden group-hover:block z-50">
+                            <a href="{{ route('profil.fasilitas') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Fasilitas</a>
+                            <a href="{{ route('profil.prestasi') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Prestasi</a>
+                        </div>
+                    </div>
                     
                     @auth
                     <div class="flex items-center gap-3 ml-4 pl-4 border-l border-gray-300">

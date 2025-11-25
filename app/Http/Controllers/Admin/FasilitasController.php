@@ -121,15 +121,15 @@ class FasilitasController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Fasilitas $fasilitas)
+    public function edit(Fasilitas $fasilita)
     {
-        return view('admin.fasilitas.edit', compact('fasilitas'));
+        return view('admin.fasilitas.edit', ['fasilitas' => $fasilita]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Fasilitas $fasilitas)
+    public function update(Request $request, Fasilitas $fasilita)
     {
         $request->validate([
             'name' => 'required|string|max:255',
@@ -149,8 +149,8 @@ class FasilitasController extends Controller
         // Handle image upload
         if ($request->hasFile('image')) {
             // Delete old image
-            if ($fasilitas->image) {
-                Storage::disk('public')->delete($fasilitas->image);
+            if ($fasilita->image) {
+                Storage::disk('public')->delete($fasilita->image);
             }
             
             $image = $request->file('image');
@@ -162,7 +162,7 @@ class FasilitasController extends Controller
         $data['is_active'] = $request->has('is_active');
         $data['sort_order'] = $request->sort_order ?? 0;
 
-        $fasilitas->update($data);
+        $fasilita->update($data);
 
         return redirect()->route('admin.fasilitas.index')->with('success', 'Fasilitas berhasil diupdate!');
     }
@@ -170,35 +170,32 @@ class FasilitasController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Fasilitas $fasilita)
     {
         try {
-            // Temukan fasilitas berdasarkan ID
-            $fasilitas = Fasilitas::findOrFail($id);
-            
             // Debug: Log the fasilitas ID being deleted
-            \Log::info('Deleting fasilitas ID: ' . $fasilitas->id);
+            \Log::info('Deleting fasilitas ID: ' . $fasilita->id);
             
             // Delete image if exists
-            if ($fasilitas->image && Storage::disk('public')->exists($fasilitas->image)) {
-                Storage::disk('public')->delete($fasilitas->image);
+            if ($fasilita->image && Storage::disk('public')->exists($fasilita->image)) {
+                Storage::disk('public')->delete($fasilita->image);
             }
 
             // Hapus data dari database
-            $deleted = $fasilitas->delete();
+            $deleted = $fasilita->delete();
             
             if (!$deleted) {
                 throw new \Exception('Gagal menghapus data dari database');
             }
             
             // Debug: Log the result of delete operation
-            \Log::info('Delete operation result: Success - Fasilitas ID ' . $fasilitas->id . ' deleted');
+            \Log::info('Delete operation result: Success - Fasilitas ID ' . $fasilita->id . ' deleted');
 
             if (request()->wantsJson() || request()->ajax()) {
                 return response()->json([
                     'success' => true,
                     'message' => 'Fasilitas berhasil dihapus!',
-                    'data' => ['id' => $fasilitas->id]
+                    'data' => ['id' => $fasilita->id]
                 ]);
             }
 

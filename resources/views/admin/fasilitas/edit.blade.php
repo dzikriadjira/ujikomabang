@@ -44,7 +44,7 @@
             <div class="bg-white shadow-lg rounded-lg p-6 md:p-8">
                 <h1 class="text-3xl font-bold text-gray-900 mb-6 text-center">Edit Fasilitas</h1>
 
-                <form action="{{ url('admin/fasilitas/' . $fasilitas->id) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.fasilitas.update', $fasilitas) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     
@@ -53,7 +53,7 @@
                         <div class="md:col-span-2">
                             <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Nama Fasilitas</label>
                             <input type="text" id="name" name="name" value="{{ old('name', $fasilitas->name) }}" required
-                                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 @error('name') border-red-500 @enderror">
+                                class="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 @error('name') border-red-500 @else border-gray-300 @enderror">
                             @error('name')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
@@ -63,7 +63,7 @@
                         <div class="md:col-span-2">
                             <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Deskripsi</label>
                             <textarea id="description" name="description" rows="4" required
-                                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 @error('description') border-red-500 @enderror">{{ old('description', $fasilitas->description) }}</textarea>
+                                class="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 @error('description') border-red-500 @else border-gray-300 @enderror">{{ old('description', $fasilitas->description) }}</textarea>
                             @error('description')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
@@ -79,7 +79,7 @@
                                 </div>
                             @endif
                             <input type="file" id="image" name="image" accept="image/*"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 @error('image') border-red-500 @enderror">
+                                class="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 @error('image') border-red-500 @else border-gray-300 @enderror">
                             @error('image')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
@@ -89,7 +89,7 @@
                         <div>
                             <label for="color" class="block text-sm font-medium text-gray-700 mb-2">Warna Tema</label>
                             <select id="color" name="color" required
-                                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 @error('color') border-red-500 @enderror">
+                                class="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 @error('color') border-red-500 @else border-gray-300 @enderror">
                                 <option value="">Pilih Warna</option>
                                 <option value="blue" {{ old('color', $fasilitas->color) == 'blue' ? 'selected' : '' }}>Biru</option>
                                 <option value="red" {{ old('color', $fasilitas->color) == 'red' ? 'selected' : '' }}>Merah</option>
@@ -108,7 +108,7 @@
                         <div>
                             <label for="icon" class="block text-sm font-medium text-gray-700 mb-2">Icon</label>
                             <input type="text" id="icon" name="icon" value="{{ old('icon', $fasilitas->icon) }}" required
-                                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 @error('icon') border-red-500 @enderror"
+                                class="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 @error('icon') border-red-500 @else border-gray-300 @enderror"
                                 placeholder="fas fa-building">
                             @error('icon')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -119,7 +119,7 @@
                         <div>
                             <label for="category" class="block text-sm font-medium text-gray-700 mb-2">Kategori</label>
                             <select id="category" name="category" required
-                                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 @error('category') border-red-500 @enderror">
+                                class="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 @error('category') border-red-500 @else border-gray-300 @enderror">
                                 <option value="">Pilih Kategori</option>
                                 <option value="pplg" {{ old('category', $fasilitas->category) == 'pplg' ? 'selected' : '' }}>PPLG</option>
                                 <option value="tkj" {{ old('category', $fasilitas->category) == 'tkj' ? 'selected' : '' }}>TKJ</option>
@@ -136,7 +136,7 @@
                         <div>
                             <label for="sort_order" class="block text-sm font-medium text-gray-700 mb-2">Urutan</label>
                             <input type="number" id="sort_order" name="sort_order" value="{{ old('sort_order', $fasilitas->sort_order) }}" min="0"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 @error('sort_order') border-red-500 @enderror">
+                                class="w-full px-4 py-2 border rounded-md focus:ring-blue-500 focus:border-blue-500 @error('sort_order') border-red-500 @else border-gray-300 @enderror">
                             @error('sort_order')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
