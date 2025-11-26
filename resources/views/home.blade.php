@@ -29,6 +29,133 @@
         /* Icon color utility for primary blue light */
         .icon-primary { color: var(--primary-blue-light) !important; }
         
+        /* Scroll-triggered animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(50px) rotate(-5deg);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0) rotate(0deg);
+        }
+        
+        .fade-in-left {
+            opacity: 0;
+            transform: translateX(-50px) rotate(-10deg) scale(0.9);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .fade-in-left.visible {
+            opacity: 1;
+            transform: translateX(0) rotate(0deg) scale(1);
+        }
+        
+        .fade-in-right {
+            opacity: 0;
+            transform: translateX(50px) rotate(10deg) scale(0.9);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .fade-in-right.visible {
+            opacity: 1;
+            transform: translateX(0) rotate(0deg) scale(1);
+        }
+        
+        .rotate-in {
+            opacity: 0;
+            transform: rotate(180deg) scale(0.5);
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .rotate-in.visible {
+            opacity: 1;
+            transform: rotate(0deg) scale(1);
+        }
+        
+        /* News card animations */
+        .news-card {
+            opacity: 0;
+            transform: translateY(30px) rotate(-2deg);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .news-card.visible {
+            opacity: 1;
+            transform: translateY(0) rotate(0deg);
+        }
+        
+        .news-card:hover {
+            transform: translateY(-8px) rotate(1deg) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Floating animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(2deg); }
+        }
+        
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        /* Pulse animation for buttons */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        /* Carousel entrance animation */
+        .carousel-entrance {
+            opacity: 0;
+            transform: scale(0.8) rotate(-5deg);
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .carousel-entrance.visible {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+        }
+        
+        /* Arrow button animations */
+        .arrow-btn {
+            transition: all 0.3s ease;
+            transform: scale(0);
+            opacity: 0;
+        }
+        
+        .arrow-btn.visible {
+            transform: scale(1);
+            opacity: 1;
+        }
+        
+        .arrow-btn:hover {
+            transform: scale(1.2) rotate(15deg);
+        }
+        
+        /* Dots animation */
+        .dot-indicator {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: scale(0) rotate(180deg);
+            opacity: 0;
+        }
+        
+        .dot-indicator.visible {
+            transform: scale(1) rotate(0deg);
+            opacity: 1;
+        }
+        
+        .dot-indicator:hover {
+            transform: scale(1.3) rotate(180deg);
+        }
+        
         .hero-bg {
             background-size: cover;
             background-position: center;
@@ -331,52 +458,74 @@
     </section>
 
     <!-- Berita Section -->
-    <section class="py-20 bg-gray-50">
+    <section class="py-20 bg-gray-50 fade-in-up">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-gray-900 mb-4">Berita Terkini</h2>
+            <div class="text-center mb-16 fade-in-left">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4 floating">Berita Terkini</h2>
                 <p class="text-xl text-gray-600 max-w-3xl mx-auto">
                     Dapatkan informasi terbaru tentang kegiatan, prestasi, dan pengumuman penting SMKN 4 Bogor
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                @php
-                    $beritaController = new \App\Http\Controllers\BeritaController();
-                    $beritas = $beritaController->getLatestBerita(4);
-                @endphp
+            <!-- News Carousel Container -->
+            <div class="relative carousel-entrance">
+                <!-- Navigation Arrows -->
+                <button id="newsPrevBtn" class="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 z-20 bg-white rounded-full shadow-lg p-3 hover:bg-gray-100 transition-all duration-200 arrow-btn">
+                    <i class="fas fa-chevron-left text-gray-700"></i>
+                </button>
+                <button id="newsNextBtn" class="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 z-20 bg-white rounded-full shadow-lg p-3 hover:bg-gray-100 transition-all duration-200 arrow-btn">
+                    <i class="fas fa-chevron-right text-gray-700"></i>
+                </button>
 
-                @foreach($beritas as $berita)
-                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
-                    @if($berita->image)
-                    <div class="h-48 bg-gray-200 relative">
-                        <img src="{{ asset('images/' . $berita->image) }}" 
-                             alt="{{ $berita->title }}"
-                             class="w-full h-full object-cover"
-                             onerror="this.src='{{ asset('images/logok4.png') }}'">
-                    </div>
-                    @endif
-                    <div class="p-6">
-                        <div class="flex items-center text-sm text-gray-500 mb-2">
-                            <i class="far fa-calendar mr-2"></i>
-                            <span>{{ $berita->formatted_date }}</span>
-                            <span class="mx-2">•</span>
-                            <i class="far fa-user mr-2"></i>
-                            <span>{{ $berita->author }}</span>
+                <!-- Carousel Wrapper -->
+                <div class="overflow-hidden rounded-lg">
+                    <div id="newsCarousel" class="flex transition-transform duration-700 ease-in-out">
+                        @php
+                            $beritaController = new \App\Http\Controllers\BeritaController();
+                            $beritas = $beritaController->getLatestBerita(8); // Get more news for carousel
+                        @endphp
+
+                        @foreach($beritas as $index => $berita)
+                        <div class="w-full md:w-1/2 lg:w-1/4 flex-shrink-0 px-2">
+                            <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-all duration-500 transform hover:scale-105 h-full news-card" 
+                                 style="animation-delay: {{ $index * 0.1 }}s;">
+                                @if($berita->image)
+                                <div class="h-48 bg-gray-200 relative overflow-hidden">
+                                    <img src="{{ asset('images/' . $berita->image) }}" 
+                                         alt="{{ $berita->title }}"
+                                         class="w-full h-full object-cover transition-transform duration-500 hover:scale-110 hover:rotate-2"
+                                         onerror="this.src='{{ asset('images/logok4.png') }}'">
+                                </div>
+                                @endif
+                                <div class="p-6">
+                                    <div class="flex items-center text-sm text-gray-500 mb-2">
+                                        <i class="far fa-calendar mr-2"></i>
+                                        <span>{{ $berita->formatted_date }}</span>
+                                        <span class="mx-2">•</span>
+                                        <i class="far fa-user mr-2"></i>
+                                        <span>{{ $berita->author }}</span>
+                                    </div>
+                                    <h3 class="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">{{ $berita->title }}</h3>
+                                    <p class="text-gray-600 text-sm mb-4 line-clamp-3">{{ $berita->short_excerpt }}</p>
+                                    <a href="{{ route('berita.show', $berita->id) }}" class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium text-sm transition-all duration-200 hover:translate-x-1">
+                                        Baca Selengkapnya
+                                        <i class="fas fa-arrow-right ml-2"></i>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-                        <h3 class="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">{{ $berita->title }}</h3>
-                        <p class="text-gray-600 text-sm mb-4 line-clamp-3">{{ $berita->short_excerpt }}</p>
-                        <a href="{{ route('berita.show', $berita->id) }}" class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium text-sm">
-                            Baca Selengkapnya
-                            <i class="fas fa-arrow-right ml-2"></i>
-                        </a>
+                        @endforeach
                     </div>
                 </div>
-                @endforeach
+
+                <!-- Carousel Indicators -->
+                <div id="newsIndicators" class="flex justify-center mt-6 space-x-2">
+                    <!-- Dots will be generated by JavaScript -->
+                </div>
             </div>
 
-            <div class="text-center mt-12">
-                <a href="{{ route('berita.index') }}" class="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200">
+            <div class="text-center mt-12 fade-in-right">
+                <a href="{{ route('berita.index') }}" class="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 pulse-animation">
                     <i class="fas fa-newspaper mr-2"></i>
                     Lihat Semua Berita
                     <i class="fas fa-arrow-right ml-2"></i>
@@ -504,6 +653,9 @@
             
             // Initialize dropdown functionality
             initializeDropdowns();
+            
+            // Initialize news carousel
+            initNewsCarousel();
         });
 
         // Hero Slider functionality
@@ -614,6 +766,189 @@
                 heroSlider.style.backgroundImage = `url('${slides[currentSlide].background}')`;
             }
         }
+        
+        // News Carousel functionality
+        let newsCurrentSlide = 0;
+        let newsAutoSlideInterval;
+        const newsCarousel = document.getElementById('newsCarousel');
+        const newsPrevBtn = document.getElementById('newsPrevBtn');
+        const newsNextBtn = document.getElementById('newsNextBtn');
+        const newsIndicators = document.getElementById('newsIndicators');
+        
+        function initNewsCarousel() {
+            if (!newsCarousel) return;
+            
+            const newsItems = newsCarousel.children;
+            const totalNewsSlides = Math.ceil(newsItems.length / getVisibleItems());
+            
+            // Create indicators with animation
+            newsIndicators.innerHTML = '';
+            for (let i = 0; i < totalNewsSlides; i++) {
+                const dot = document.createElement('button');
+                dot.className = 'w-3 h-3 rounded-full transition-all duration-500 bg-gray-300 dot-indicator';
+                dot.onclick = () => goToNewsSlide(i);
+                dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+                newsIndicators.appendChild(dot);
+            }
+            
+            // Start auto-slide immediately
+            startNewsAutoSlide();
+            
+            // Navigation buttons with enhanced effects (no pause on hover)
+            newsPrevBtn?.addEventListener('click', () => {
+                changeNewsSlide(-1);
+                resetNewsAutoSlide();
+            });
+            
+            newsNextBtn?.addEventListener('click', () => {
+                changeNewsSlide(1);
+                resetNewsAutoSlide();
+            });
+            
+            // Initial carousel setup
+            setTimeout(() => {
+                updateNewsCarousel();
+            }, 100);
+        }
+        
+        function getVisibleItems() {
+            const width = window.innerWidth;
+            if (width >= 1024) return 4; // lg
+            if (width >= 768) return 2;  // md
+            return 1; // sm
+        }
+        
+        function updateNewsCarousel() {
+            const offset = newsCurrentSlide * -100;
+            newsCarousel.style.transform = `translateX(${offset}%)`;
+            
+            // Update indicators
+            const dots = newsIndicators.children;
+            for (let i = 0; i < dots.length; i++) {
+                if (i === newsCurrentSlide) {
+                    dots[i].className = 'w-3 h-3 rounded-full transition-all duration-300 bg-blue-600 w-8';
+                } else {
+                    dots[i].className = 'w-3 h-3 rounded-full transition-all duration-300 bg-gray-300';
+                }
+            }
+        }
+        
+        function changeNewsSlide(direction) {
+            const newsItems = newsCarousel.children;
+            const totalNewsSlides = Math.ceil(newsItems.length / getVisibleItems());
+            
+            newsCurrentSlide = (newsCurrentSlide + direction + totalNewsSlides) % totalNewsSlides;
+            updateNewsCarousel();
+        }
+        
+        function goToNewsSlide(slideIndex) {
+            newsCurrentSlide = slideIndex;
+            updateNewsCarousel();
+            resetNewsAutoSlide();
+        }
+        
+        function startNewsAutoSlide() {
+            newsAutoSlideInterval = setInterval(() => {
+                changeNewsSlide(1);
+            }, 7000); // 7 seconds for slower auto-slide
+        }
+        
+        function stopNewsAutoSlide() {
+            clearInterval(newsAutoSlideInterval);
+        }
+        
+        function resetNewsAutoSlide() {
+            stopNewsAutoSlide();
+            startNewsAutoSlide();
+        }
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            newsCurrentSlide = 0;
+            initNewsCarousel();
+        });
+        
+        // Scroll-triggered animations
+        function initScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        
+                        // Special handling for arrow buttons
+                        if (entry.target.classList.contains('arrow-btn')) {
+                            setTimeout(() => {
+                                entry.target.classList.add('visible');
+                            }, 800);
+                        }
+                        
+                        // Special handling for dots
+                        if (entry.target.id === 'newsIndicators') {
+                            const dots = entry.target.children;
+                            setTimeout(() => {
+                                Array.from(dots).forEach((dot, index) => {
+                                    setTimeout(() => {
+                                        dot.classList.add('visible');
+                                    }, index * 100);
+                                });
+                            }, 1000);
+                        }
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe all animated elements
+            const animatedElements = document.querySelectorAll('.fade-in-up, .fade-in-left, .fade-in-right, .rotate-in, .carousel-entrance, .news-card, .arrow-btn');
+            animatedElements.forEach(el => observer.observe(el));
+            
+            // Observe indicators container separately
+            const indicatorsContainer = document.getElementById('newsIndicators');
+            if (indicatorsContainer) {
+                observer.observe(indicatorsContainer);
+            }
+        }
+        
+        // Enhanced carousel with rotation effects
+        function updateNewsCarousel() {
+            const offset = newsCurrentSlide * -100;
+            newsCarousel.style.transform = `translateX(${offset}%) rotateY(0deg)`;
+            
+            // Update indicators with rotation
+            const dots = newsIndicators.children;
+            for (let i = 0; i < dots.length; i++) {
+                if (i === newsCurrentSlide) {
+                    dots[i].className = 'w-3 h-3 rounded-full transition-all duration-500 bg-blue-600 w-8 dot-indicator visible';
+                    dots[i].style.transform = 'scale(1.2) rotate(0deg)';
+                } else {
+                    dots[i].className = 'w-3 h-3 rounded-full transition-all duration-500 bg-gray-300 dot-indicator visible';
+                    dots[i].style.transform = 'scale(1) rotate(0deg)';
+                }
+            }
+            
+            // Add rotation effect to carousel during transition
+            newsCarousel.style.transition = 'transform 0.7s cubic-bezier(0.4, 0, 0.2, 1)';
+        }
+        
+        function changeNewsSlide(direction) {
+            const newsItems = newsCarousel.children;
+            const totalNewsSlides = Math.ceil(newsItems.length / getVisibleItems());
+            
+            // Add rotation during transition
+            newsCarousel.style.transform = `translateX(${newsCurrentSlide * -100}%) rotateY(${direction * 5}deg)`;
+            
+            setTimeout(() => {
+                newsCurrentSlide = (newsCurrentSlide + direction + totalNewsSlides) % totalNewsSlides;
+                updateNewsCarousel();
+            }, 100);
+        }
+        
+        // Initialize scroll animations on page load
+        initScrollAnimations();
     </script>
 </body>
 </html>
