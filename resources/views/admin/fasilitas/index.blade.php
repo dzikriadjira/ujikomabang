@@ -34,7 +34,7 @@
                     <!-- Image -->
                     <div class="relative h-48 bg-gray-200">
                         @if($item->image)
-                            <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}" class="w-full h-full object-cover">
+                            <img src="{{ route('admin.fasilitas.image', $item->image) }}" alt="{{ $item->name }}" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='{{ asset('images/logok4.png') }}';">
                         @else
                             <div class="w-full h-full flex items-center justify-center">
                                 <i class="{{ $item->icon }} text-4xl text-gray-400"></i>
@@ -72,7 +72,10 @@
                             <h4 class="text-sm font-semibold text-gray-800 mb-2">Fitur:</h4>
                             @php
                                 // Pastikan features adalah array dan tidak kosong
-                                $features = is_array($item->features) ? $item->features : [];
+                                $features = $item->features;
+                                if (is_string($features)) {
+                                    $features = json_decode($features, true) ?: [];
+                                }
                                 $features = array_filter($features); // Hapus nilai kosong
                             @endphp
                             
@@ -92,13 +95,13 @@
                         <!-- Actions -->
                         <div class="flex justify-between items-center">
                             <div class="flex space-x-2">
-                                <a href="{{ route('admin.fasilitas.show', $item) }}" class="text-blue-600 hover:text-blue-800 text-sm">
+                                <a href="{{ route('admin.fasilitas.show', $item->id) }}" class="text-blue-600 hover:text-blue-800 text-sm">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <a href="{{ route('admin.fasilitas.edit', $item) }}" class="text-green-600 hover:text-green-800 text-sm">
+                                <a href="{{ route('admin.fasilitas.edit', $item->id) }}" class="text-green-600 hover:text-green-800 text-sm">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                <form method="POST" action="{{ route('admin.fasilitas.destroy', $item) }}" class="delete-form">
+                                <form method="POST" action="{{ route('admin.fasilitas.destroy', $item->id) }}" class="delete-form">
                                     @csrf
                                     @method('DELETE')
                                     <button type="button" class="delete-btn text-red-600 hover:text-red-800 text-sm">

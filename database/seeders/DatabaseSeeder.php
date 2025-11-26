@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             CategorySeeder::class,
+            BeritaSeeder::class,
             // ClearImagesSeeder::class, // Uncomment this line when you want to clear all images
         ]);
     }

@@ -173,6 +173,7 @@
                         @endif
                     @endauth
                     <a href="{{ route('gallery.index') }}" class="nav-link text-blue-600 font-medium transition-colors duration-200 border-b-2 border-blue-600">GALLERY</a>
+                    <a href="{{ route('berita.index') }}" class="nav-link text-gray-900 hover:text-orange-600 font-medium transition-colors duration-200">BERITA</a>
                     <a href="{{ route('jurusan.index') }}" class="nav-link text-gray-900 hover:text-cyan-600 font-medium transition-colors duration-200">JURUSAN</a>
                     <div class="relative group">
                         <button class="nav-link text-gray-900 hover:text-cyan-600 font-medium transition-colors duration-200 flex items-center">

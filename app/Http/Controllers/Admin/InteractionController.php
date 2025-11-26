@@ -15,7 +15,7 @@ class InteractionController extends Controller
     public function index(Request $request)
     {
         $galleries = Gallery::with(['comments'])
-            ->withCount(['comments'])
+            ->withCount(['comments', 'likes', 'dislikes'])
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
@@ -27,11 +27,23 @@ class InteractionController extends Controller
      */
     public function show(Gallery $gallery)
     {
-        $gallery->load(['comments']);
+        $gallery->load(['comments' => function($query) {
+            $query->with('user')->latest();
+        }]);
         
-        // Get session-based likes and dislikes counts
-        $likesCount = session()->get('gallery_' . $gallery->id . '_likes_count', 0);
-        $dislikesCount = session()->get('gallery_' . $gallery->id . '_dislikes_count', 0);
+        // Load likes with user data
+        $gallery->load(['likes' => function($query) {
+            $query->with('user')->latest();
+        }]);
+        
+        // Load dislikes with user data
+        $gallery->load(['dislikes' => function($query) {
+            $query->with('user')->latest();
+        }]);
+        
+        // Get likes and dislikes counts from database
+        $likesCount = $gallery->likes()->count();
+        $dislikesCount = $gallery->dislikes()->count();
         
         return view('admin.interactions.show', compact('gallery', 'likesCount', 'dislikesCount'));
     }

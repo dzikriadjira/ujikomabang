@@ -24,35 +24,183 @@
         body {
             font-family: 'Poppins', sans-serif;
         }
+        
+        /* Animasi untuk tampilan fasilitas */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+        
+        @keyframes shimmer {
+            0% {
+                background-position: -1000px 0;
+            }
+            100% {
+                background-position: 1000px 0;
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        @keyframes glow {
+            0%, 100% {
+                box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
+            }
+        }
+        
         .gradient-bg {
             background: #60A5FA;
         }
+        
         .card-hover {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeInUp 0.6s ease-out;
         }
+        
+        .card-hover:nth-child(1) { animation-delay: 0.1s; }
+        .card-hover:nth-child(2) { animation-delay: 0.2s; }
+        .card-hover:nth-child(3) { animation-delay: 0.3s; }
+        .card-hover:nth-child(4) { animation-delay: 0.4s; }
+        .card-hover:nth-child(5) { animation-delay: 0.5s; }
+        .card-hover:nth-child(6) { animation-delay: 0.6s; }
+        
         .card-hover:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            transform: translateY(-12px) scale(1.03);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+            animation: glow 2s infinite;
         }
+        
         .facility-image {
-            transition: transform 0.4s ease;
+            transition: transform 0.5s ease;
+            overflow: hidden;
         }
+        
         .card-hover:hover .facility-image {
-            transform: scale(1.1);
+            transform: scale(1.15) rotate(2deg);
         }
+        
+        .facility-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
+        }
+        
+        .card-hover:hover .facility-image::before {
+            left: 100%;
+        }
+        
         .dropdown:hover .dropdown-menu {
             opacity: 1;
             visibility: visible;
             transform: translateY(0);
         }
+        
         .dropdown-menu {
             opacity: 0;
             visibility: hidden;
             transform: translateY(-10px);
             transition: all 0.3s ease;
         }
+        
+        /* Animasi untuk badge */
+        .facility-badge {
+            animation: slideInLeft 0.5s ease-out;
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover .facility-badge {
+            transform: scale(1.1) rotate(-5deg);
+        }
+        
+        /* Animasi untuk content */
+        .facility-content {
+            animation: fadeInUp 0.8s ease-out;
+            animation-delay: 0.3s;
+            animation-fill-mode: both;
+        }
+        
+        /* Animasi untuk features */
+        .feature-tag {
+            animation: fadeInUp 0.5s ease-out;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-tag:hover {
+            transform: translateY(-2px) scale(1.05);
+            background: var(--gradient-primary) !important;
+            color: white !important;
+        }
+        
+        /* Animasi untuk header */
+        .page-header {
+            animation: slideInLeft 0.8s ease-out;
+        }
+        
+        .header-title {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        /* Loading shimmer effect */
+        .shimmer {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 1000px 100%;
+            animation: shimmer 2s infinite;
+        }
+        
+        /* Floating animation untuk icons */
+        .floating-icon {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        /* Pulse animation untuk CTA buttons */
+        .pulse-button {
+            animation: pulse 2s infinite;
+        }
+        
         /* Primary light blue icon */
         .icon-primary { color: var(--primary-blue-light) !important; }
+        
         /* Footer blue styling identical to Gallery */
         .bg-gray-900 { 
             background: var(--gradient-light) !important; 
@@ -82,7 +230,7 @@
                 <!-- Logo -->
                 <div class="flex items-center">
                     <a href="/" class="flex items-center space-x-2">
-                        <img src="{{ asset('images/logok4.png') }}" alt="SMKN 4 Bogor" class="h-8 w-8 sm:h-10 sm:w-10">
+                        <img src="{{ asset('images/logok4.png') }}" alt="SMKN 4 Bogor" class="h-8 w-8 sm:h-10 sm:w-10 floating-icon">
                         <span class="text-base sm:text-xl font-bold text-gray-900">SMKN 4 Bogor</span>
                     </a>
                 </div>
@@ -148,11 +296,13 @@
     </nav>
 
     <!-- Header Section -->
-    <div class="gradient-bg text-white py-20">
+    <div class="gradient-bg text-white py-20 page-header">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-5xl md:text-6xl font-bold mb-6 tracking-wide">FASILITAS</h1>
-            <p class="text-2xl md:text-3xl font-light mb-4">SMKN 4 Bogor</p>
-            <p class="text-lg md:text-xl opacity-90 max-w-3xl mx-auto leading-relaxed">
+            <h1 class="text-5xl md:text-6xl font-bold mb-6 tracking-wide header-title">
+                <i class="fas fa-school mr-4 floating-icon"></i>FASILITAS
+            </h1>
+            <p class="text-2xl md:text-3xl font-light mb-4 header-title" style="animation-delay: 0.2s;">SMKN 4 Bogor</p>
+            <p class="text-lg md:text-xl opacity-90 max-w-3xl mx-auto leading-relaxed header-title" style="animation-delay: 0.4s;">
                 Fasilitas modern dan lengkap untuk mendukung pembelajaran yang optimal
             </p>
         </div>
@@ -166,27 +316,28 @@
             <div class="bg-white rounded-2xl shadow-lg card-hover overflow-hidden group">
                 <div class="relative">
                     @if($fasilitas['image'])
-                        <img src="{{ asset('storage/' . $fasilitas['image']) }}" 
+                        <img src="{{ asset('images/' . $fasilitas['image']) }}?v={{ time() }}" 
                              alt="{{ $fasilitas['name'] }}" 
-                             class="w-full h-48 object-cover facility-image">
+                             class="w-full h-48 object-cover facility-image"
+                             onerror="console.log('Image failed: {{ $fasilitas['image'] }}'); this.onerror=null; this.src='{{ asset('images/logok4.png') }}';">
                     @else
                         <div class="w-full h-48 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
                             <i class="{{ $fasilitas['icon'] }} text-4xl text-gray-500"></i>
                         </div>
                     @endif
                     <div class="absolute top-4 left-4">
-                        <span class="{{ $fasilitas['bgColor'] }} text-white px-3 py-1 rounded-full text-sm font-bold">
+                        <span class="{{ $fasilitas['bgColor'] }} text-white px-3 py-1 rounded-full text-sm font-bold facility-badge">
                             <i class="{{ $fasilitas['icon'] }} mr-1"></i>{{ ucfirst($fasilitas['category']) }}
                         </span>
                     </div>
                 </div>
-                <div class="p-6">
+                <div class="p-6 facility-content">
                     <h3 class="text-xl font-bold text-gray-900 mb-3">{{ $fasilitas['name'] }}</h3>
                     <p class="text-gray-600 mb-4">{{ $fasilitas['description'] }}</p>
                     @if(!empty($fasilitas['features']))
                     <ul class="space-y-2 text-gray-600">
                         @foreach($fasilitas['features'] as $feature)
-                        <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i>{{ $feature }}</li>
+                        <li class="flex items-center feature-tag"><i class="fas fa-check text-green-500 mr-2"></i>{{ $feature }}</li>
                         @endforeach
                     </ul>
                     @endif
@@ -203,7 +354,7 @@
 
         <!-- Back Button -->
         <div class="text-center mt-16">
-            <a href="/" class="inline-flex items-center px-8 py-4 text-white font-medium rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg" style="background: var(--primary-blue-light);">
+            <a href="/" class="inline-flex items-center px-8 py-4 text-white font-medium rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg pulse-button" style="background: var(--primary-blue-light);">
                 <i class="fas fa-arrow-left mr-3 icon-primary"></i>
                 Kembali ke Beranda
             </a>

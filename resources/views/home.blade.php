@@ -149,7 +149,7 @@
                 <!-- Logo -->
                 <div class="flex items-center">
                     <div class="h-12 w-12 sm:h-16 sm:w-16 mr-3 sm:mr-4 shadow-lg rounded-xl overflow-hidden bg-white flex items-center justify-center">
-                        <img src="{{ asset('images/lg_pplg-removebg-preview.png') }}" alt="Logo SMKN 4 Bogor" class="h-full w-full object-contain p-1">
+                        <img src="{{ asset('images/logok4.png') }}" alt="Logo SMKN 4 Bogor" class="h-full w-full object-contain p-1">
                     </div>
                     <div>
                         <h1 class="text-lg sm:text-2xl font-bold text-gray-900">SMK NEGRI 4</h1>
@@ -160,6 +160,8 @@
                 <!-- Navigation Links - Desktop -->
                 <div class="hidden lg:flex items-center space-x-8">
                     <a href="/" class="nav-link text-gray-900 hover:text-blue-600 font-medium transition-colors duration-200">BERANDA</a>
+                    
+                    <a href="{{ route('berita.index') }}" class="nav-link text-gray-900 hover:text-orange-600 font-medium transition-colors duration-200">BERITA</a>
                     
                     <a href="{{ route('gallery.index') }}" class="nav-link text-gray-900 hover:text-purple-600 font-medium transition-colors duration-200">GALLERY</a>
                     
@@ -194,6 +196,10 @@
                 <div class="flex flex-col space-y-2">
                     <a href="/" class="block px-4 py-3 text-gray-900 hover:bg-blue-50 hover:text-blue-600 font-medium rounded-md transition-colors duration-200">
                         <i class="fas fa-home mr-2"></i>BERANDA
+                    </a>
+                    
+                    <a href="{{ route('berita.index') }}" class="block px-4 py-3 text-gray-900 hover:bg-orange-50 hover:text-orange-600 font-medium rounded-md transition-colors duration-200">
+                        <i class="fas fa-newspaper mr-2"></i>BERITA
                     </a>
                     
                     <a href="{{ route('gallery.index') }}" class="block px-4 py-3 text-gray-900 hover:bg-purple-50 hover:text-purple-600 font-medium rounded-md transition-colors duration-200">
@@ -320,6 +326,61 @@
                     <h3 class="text-xl font-semibold text-gray-900 mb-2">Fasilitas Lengkap</h3>
                     <p class="text-gray-600">Laboratorium dan peralatan modern untuk mendukung pembelajaran</p>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Berita Section -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Berita Terkini</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Dapatkan informasi terbaru tentang kegiatan, prestasi, dan pengumuman penting SMKN 4 Bogor
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                @php
+                    $beritaController = new \App\Http\Controllers\BeritaController();
+                    $beritas = $beritaController->getLatestBerita(4);
+                @endphp
+
+                @foreach($beritas as $berita)
+                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                    @if($berita->image)
+                    <div class="h-48 bg-gray-200 relative">
+                        <img src="{{ asset('images/' . $berita->image) }}" 
+                             alt="{{ $berita->title }}"
+                             class="w-full h-full object-cover"
+                             onerror="this.src='{{ asset('images/logok4.png') }}'">
+                    </div>
+                    @endif
+                    <div class="p-6">
+                        <div class="flex items-center text-sm text-gray-500 mb-2">
+                            <i class="far fa-calendar mr-2"></i>
+                            <span>{{ $berita->formatted_date }}</span>
+                            <span class="mx-2">•</span>
+                            <i class="far fa-user mr-2"></i>
+                            <span>{{ $berita->author }}</span>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">{{ $berita->title }}</h3>
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-3">{{ $berita->short_excerpt }}</p>
+                        <a href="{{ route('berita.show', $berita->id) }}" class="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium text-sm">
+                            Baca Selengkapnya
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+
+            <div class="text-center mt-12">
+                <a href="{{ route('berita.index') }}" class="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200">
+                    <i class="fas fa-newspaper mr-2"></i>
+                    Lihat Semua Berita
+                    <i class="fas fa-arrow-right ml-2"></i>
+                </a>
             </div>
         </div>
     </section>

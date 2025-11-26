@@ -80,14 +80,11 @@ class FasilitasController extends Controller
                     'mime' => $image->getMimeType()
                 ]);
                 
-                $imagePath = $image->store('fasilitas', 'public');
+                // Simpan ke public/images folder
+                $image->move(public_path('images'), $imageName);
                 
-                if (!$imagePath) {
-                    throw new \Exception('Gagal menyimpan file gambar');
-                }
-                
-                $data['image'] = $imagePath;
-                \Log::info('File berhasil disimpan', ['path' => $imagePath]);
+                $data['image'] = $imageName;
+                \Log::info('File berhasil disimpan', ['path' => $imageName]);
             }
 
             $data['is_active'] = $request->has('is_active');
@@ -113,24 +110,27 @@ class FasilitasController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Fasilitas $fasilita)
+    public function show($fasilita)
     {
+        $fasilita = Fasilitas::findOrFail($fasilita);
         return view('admin.fasilitas.show', compact('fasilita'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Fasilitas $fasilita)
+    public function edit($fasilita)
     {
+        $fasilita = Fasilitas::findOrFail($fasilita);
         return view('admin.fasilitas.edit', ['fasilitas' => $fasilita]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Fasilitas $fasilita)
+    public function update(Request $request, $fasilita)
     {
+        $fasilita = Fasilitas::findOrFail($fasilita);
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
@@ -149,14 +149,14 @@ class FasilitasController extends Controller
         // Handle image upload
         if ($request->hasFile('image')) {
             // Delete old image
-            if ($fasilita->image) {
-                Storage::disk('public')->delete($fasilita->image);
+            if ($fasilita->image && file_exists(public_path('images/' . $fasilita->image))) {
+                unlink(public_path('images/' . $fasilita->image));
             }
             
             $image = $request->file('image');
             $imageName = time() . '_' . Str::slug($request->name) . '.' . $image->getClientOriginalExtension();
-            $imagePath = $image->store('fasilitas', 'public');
-            $data['image'] = $imagePath;
+            $image->move(public_path('images'), $imageName);
+            $data['image'] = $imageName;
         }
 
         $data['is_active'] = $request->has('is_active');
@@ -170,15 +170,34 @@ class FasilitasController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Fasilitas $fasilita)
+    public function image($filename)
     {
+        $path = public_path('images/' . $filename);
+        
+        if (!file_exists($path)) {
+            abort(404);
+        }
+        
+        $mimeType = mime_content_type($path);
+        $headers = [
+            'Content-Type' => $mimeType,
+            'Content-Length' => filesize($path),
+        ];
+        
+        return response()->file($path, $headers);
+    }
+
+    public function destroy($fasilita)
+    {
+        $fasilita = Fasilitas::findOrFail($fasilita);
+        
         try {
             // Debug: Log the fasilitas ID being deleted
             \Log::info('Deleting fasilitas ID: ' . $fasilita->id);
             
             // Delete image if exists
-            if ($fasilita->image && Storage::disk('public')->exists($fasilita->image)) {
-                Storage::disk('public')->delete($fasilita->image);
+            if ($fasilita->image && file_exists(public_path('images/' . $fasilita->image))) {
+                unlink(public_path('images/' . $fasilita->image));
             }
 
             // Hapus data dari database

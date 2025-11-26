@@ -415,6 +415,92 @@
     </footer>
 
     <script>
+        // Handle comment form submission
+        document.addEventListener('DOMContentLoaded', function() {
+            const commentForm = document.getElementById('comment-form');
+            if (commentForm) {
+                commentForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const formData = new FormData(this);
+                    const submitBtn = this.querySelector('button[type="submit"]');
+                    const originalText = submitBtn.innerHTML;
+                    
+                    // Show loading state
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Mengirim...</span>';
+                    
+                    fetch(this.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            // Clear form
+                            this.reset();
+                            
+                            // Update comment count
+                            const commentCount = document.getElementById('comment-count');
+                            if (commentCount) {
+                                const currentCount = parseInt(commentCount.textContent) || 0;
+                                commentCount.textContent = currentCount + 1;
+                            }
+                            
+                            // Show success message
+                            const successDiv = document.createElement('div');
+                            successDiv.className = 'bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg mb-4';
+                            successDiv.innerHTML = '<i class="fas fa-check-circle mr-2"></i>' + data.message;
+                            this.parentNode.insertBefore(successDiv, this);
+                            
+                            // Remove success message after 3 seconds
+                            setTimeout(() => {
+                                successDiv.remove();
+                            }, 3000);
+                            
+                            // Reload page after a short delay to show the new comment
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1000);
+                        } else {
+                            // Show error message
+                            const errorDiv = document.createElement('div');
+                            errorDiv.className = 'bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg mb-4';
+                            errorDiv.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i>' + (data.message || 'Terjadi kesalahan. Silakan coba lagi.');
+                            this.parentNode.insertBefore(errorDiv, this);
+                            
+                            // Remove error message after 5 seconds
+                            setTimeout(() => {
+                                errorDiv.remove();
+                            }, 5000);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        // Show error message
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = 'bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg mb-4';
+                        errorDiv.innerHTML = '<i class="fas fa-exclamation-circle mr-2"></i>Terjadi kesalahan. Silakan coba lagi.';
+                        this.parentNode.insertBefore(errorDiv, this);
+                        
+                        // Remove error message after 5 seconds
+                        setTimeout(() => {
+                            errorDiv.remove();
+                        }, 5000);
+                    })
+                    .finally(() => {
+                        // Restore button state
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = originalText;
+                    });
+                });
+            }
+        });
+        
         // Mobile menu toggle
         document.addEventListener('DOMContentLoaded', function() {
             const mobileMenuButton = document.getElementById('mobile-menu-button');

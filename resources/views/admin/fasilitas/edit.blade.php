@@ -75,7 +75,7 @@
                             @if($fasilitas->image)
                                 <div class="mb-3">
                                     <p class="text-sm text-gray-600 mb-2">Gambar saat ini:</p>
-                                    <img src="{{ asset('storage/' . $fasilitas->image) }}" alt="{{ $fasilitas->name }}" class="max-w-xs h-auto rounded-md shadow-sm">
+                                    <img src="{{ url('images/' . $fasilitas->image) }}" alt="{{ $fasilitas->name }}" class="max-w-xs h-auto rounded-md shadow-sm" onerror="this.onerror=null; this.src='/images/logok4.png';">
                                 </div>
                             @endif
                             <input type="file" id="image" name="image" accept="image/*"

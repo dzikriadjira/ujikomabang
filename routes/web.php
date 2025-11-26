@@ -10,6 +10,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\JurusanController;
 use App\Http\Controllers\LikeController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\BeritaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,10 +38,17 @@ Route::get('/jurusan', [JurusanController::class, 'index'])->name('jurusan.index
 Route::get('/profil/fasilitas', [App\Http\Controllers\PublicFasilitasController::class, 'index'])->name('profil.fasilitas');
 Route::get('/profil/prestasi', [App\Http\Controllers\PublicPrestasiController::class, 'index'])->name('profil.prestasi');
 
+// Public image routes (can be accessed without login)
+Route::get('images/fasilitas/{filename}', [App\Http\Controllers\Admin\FasilitasController::class, 'image'])->name('fasilitas.image');
+
 // Public gallery routes (can be accessed without login)
 Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.index');
 Route::get('/gallery/search', [GalleryController::class, 'search'])->name('gallery.search');
 Route::get('/gallery/{gallery}', [GalleryController::class, 'show'])->whereNumber('gallery')->name('gallery.show');
+
+// Public berita routes
+Route::get('/berita', [BeritaController::class, 'index'])->name('berita.index');
+Route::get('/berita/{id}', [BeritaController::class, 'show'])->name('berita.show');
 
 // User Authentication routes (for public users)
 Route::get('/login', [UserAuthController::class, 'showLoginForm'])->name('user.login');
@@ -109,6 +117,18 @@ Route::middleware(['auth', 'admin'])->group(function () {
     // Category statistics
     Route::get('/categories/stats', '\App\Http\Controllers\CategoryStatsController')->name('categories.stats');
     
+    // Berita management
+    Route::resource('admin/berita', \App\Http\Controllers\Admin\BeritaController::class)->names([
+        'index' => 'admin.berita.index',
+        'create' => 'admin.berita.create',
+        'store' => 'admin.berita.store',
+        'show' => 'admin.berita.show',
+        'edit' => 'admin.berita.edit',
+        'update' => 'admin.berita.update',
+        'destroy' => 'admin.berita.destroy',
+    ])->parameters(['berita' => 'berita']);
+    Route::post('/admin/berita/{berita}/toggle-active', [\App\Http\Controllers\Admin\BeritaController::class, 'toggleActive'])->name('admin.berita.toggle-active');
+    
     // Jurusan management
     Route::resource('admin/jurusan', App\Http\Controllers\Admin\JurusanController::class)->names([
         'index' => 'admin.jurusan.index',
@@ -129,7 +149,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
         'edit' => 'admin.fasilitas.edit',
         'update' => 'admin.fasilitas.update',
         'destroy' => 'admin.fasilitas.destroy',
-    ]);
+    ])->parameters(['fasilitas' => 'fasilita']);
+    
+    // Admin fasilitas image route
+    Route::get('admin/fasilitas/image/{filename}', [App\Http\Controllers\Admin\FasilitasController::class, 'image'])->name('admin.fasilitas.image');
     
     // Prestasi management
     Route::resource('admin/prestasi', App\Http\Controllers\Admin\PrestasiController::class)->names([

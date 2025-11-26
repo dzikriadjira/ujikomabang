@@ -42,6 +42,58 @@ class LikeController extends Controller
     }
     
     /**
+     * Store a like via API (for authenticated users)
+     */
+    public function store(Request $request, Gallery $gallery): JsonResponse
+    {
+        if (!Auth::check()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Authentication required'
+            ], 401);
+        }
+
+        return $this->toggleLikeDatabase($gallery);
+    }
+
+    /**
+     * Destroy a like via API (for authenticated users)
+     */
+    public function destroy(Request $request, Gallery $gallery): JsonResponse
+    {
+        if (!Auth::check()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Authentication required'
+            ], 401);
+        }
+
+        $user = Auth::user();
+        
+        // Check if user has liked this gallery
+        $existingLike = Like::where('user_id', $user->id)
+                           ->where('gallery_id', $gallery->id)
+                           ->first();
+        
+        if ($existingLike) {
+            $existingLike->delete();
+        }
+        
+        // Get updated counts
+        $likesCount = Like::where('gallery_id', $gallery->id)->count();
+        $dislikesCount = \App\Models\Dislike::where('gallery_id', $gallery->id)->count();
+        
+        return response()->json([
+            'success' => true,
+            'status' => 'success',
+            'message' => 'Like removed',
+            'likes_count' => $likesCount,
+            'dislikes_count' => $dislikesCount,
+            'is_liked' => false,
+        ]);
+    }
+    
+    /**
      * Toggle like using database (for authenticated users)
      */
     private function toggleLikeDatabase(Gallery $gallery): JsonResponse
@@ -70,12 +122,14 @@ class LikeController extends Controller
         
         // Get updated counts
         $likesCount = Like::where('gallery_id', $gallery->id)->count();
+        $dislikesCount = \App\Models\Dislike::where('gallery_id', $gallery->id)->count();
         
         return response()->json([
             'success' => true,
             'status' => 'success',
             'message' => $message,
             'likes_count' => $likesCount,
+            'dislikes_count' => $dislikesCount,
             'is_liked' => $isLiked,
         ]);
     }

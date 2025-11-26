@@ -49,7 +49,7 @@
                 <!-- Image Section -->
                 <div class="relative h-64 bg-gray-200">
                     @if($fasilita->image)
-                        <img src="{{ asset('storage/' . $fasilita->image) }}" alt="{{ $fasilita->name }}" class="w-full h-full object-cover">
+                        <img src="{{ url('images/' . $fasilita->image) }}" alt="{{ $fasilita->name }}" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='/images/logok4.png';">
                     @else
                         <div class="w-full h-full flex items-center justify-center">
                             <i class="{{ $fasilita->icon }} text-6xl text-gray-400"></i>

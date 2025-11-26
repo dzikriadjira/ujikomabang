@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Images</title>
+</head>
+<body>
+    <h1>Test Gambar Fasilitas</h1>
+    
+    <h2>Relative Path:</h2>
+    <img src="/images/fasilitas1.png" alt="Fasilitas 1" style="border: 1px solid red; width: 200px;">
+    <img src="/images/fasilitas2.png" alt="Fasilitas 2" style="border: 1px solid red; width: 200px;">
+    
+    <h2>Asset Helper:</h2>
+    <img src="<?php echo asset('images/fasilitas1.png'); ?>" alt="Fasilitas 1 Asset" style="border: 1px solid blue; width: 200px;">
+    <img src="<?php echo asset('images/fasilitas2.png'); ?>" alt="Fasilitas 2 Asset" style="border: 1px solid blue; width: 200px;">
+    
+    <h2>URL Helper:</h2>
+    <img src="<?php echo url('images/fasilitas1.png'); ?>" alt="Fasilitas 1 URL" style="border: 1px solid green; width: 200px;">
+    <img src="<?php echo url('images/fasilitas2.png'); ?>" alt="Fasilitas 2 URL" style="border: 1px solid green; width: 200px;">
+    
+    <h2>Fallback:</h2>
+    <img src="/images/logok4.png" alt="Logo" style="border: 1px solid orange; width: 200px;">
+    
+    <h2>Debug Info:</h2>
+    <p>Current URL: <?php echo $_SERVER['REQUEST_URI']; ?></p>
+    <p>Host: <?php echo $_SERVER['HTTP_HOST']; ?></p>
+    <p>Port: <?php echo $_SERVER['SERVER_PORT']; ?></p>
+</body>
+</html>

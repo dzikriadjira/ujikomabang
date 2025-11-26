@@ -34,7 +34,7 @@ Route::middleware('auth:sanctum')->group(function () {
     
     // Comments
     Route::get('/galleries/{gallery}/comments', [CommentController::class, 'index']);
-    Route::post('/galleries/{gallery}/comments', [CommentController::class, 'store']);
+    Route::post('/galleries/{gallery}/comments', [CommentController::class, 'storeApi']);
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy']);
 });
 

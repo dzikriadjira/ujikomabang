@@ -46,12 +46,12 @@
                             </td>
                             <td class="px-6 py-4 text-center">
                                 <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
-                                    <i class="fas fa-thumbs-up mr-1"></i> {{ session()->get('gallery_' . $gallery->id . '_likes_count', 0) }}
+                                    <i class="fas fa-thumbs-up mr-1"></i> {{ $gallery->likes_count }}
                                 </span>
                             </td>
                             <td class="px-6 py-4 text-center">
                                 <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">
-                                    <i class="fas fa-thumbs-down mr-1"></i> {{ session()->get('gallery_' . $gallery->id . '_dislikes_count', 0) }}
+                                    <i class="fas fa-thumbs-down mr-1"></i> {{ $gallery->dislikes_count }}
                                 </span>
                             </td>
                             <td class="px-6 py-4 text-center">

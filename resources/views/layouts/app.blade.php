@@ -285,6 +285,10 @@
                         <span>Galeri</span>
                     </a>
                     @if(auth()->user()->isAdmin())
+                    <a href="{{ route('admin.berita.index') }}" class="flex items-center px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('admin.berita.*') ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600' }} transition-all duration-200">
+                        <i class="fas fa-newspaper w-4 h-4 mr-2"></i>
+                        <span>Berita</span>
+                    </a>
                     <a href="{{ route('admin.jurusan.index') }}" class="flex items-center px-3 py-2 rounded-md text-sm font-medium {{ request()->routeIs('admin.jurusan.*') ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600' }} transition-all duration-200">
                         <i class="fas fa-graduation-cap w-4 h-4 mr-2"></i>
                         <span>Jurusan</span>
@@ -391,6 +395,10 @@
                             Galeri
                         </a>
                         @if(auth()->user()->isAdmin())
+                        <a href="{{ route('admin.berita.index') }}" class="flex items-center px-3 py-3 rounded-md text-base font-medium {{ request()->routeIs('admin.berita.*') ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600' }} transition-colors duration-200">
+                            <i class="fas fa-newspaper w-5 text-center mr-3 text-gray-500"></i>
+                            Berita
+                        </a>
                         <a href="{{ route('admin.jurusan.index') }}" class="flex items-center px-3 py-3 rounded-md text-base font-medium {{ request()->routeIs('admin.jurusan.*') ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-50 hover:text-blue-600' }} transition-colors duration-200">
                             <i class="fas fa-graduation-cap w-5 text-center mr-3 text-gray-500"></i>
                             Jurusan

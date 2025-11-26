@@ -15,6 +15,38 @@ class CommentController extends Controller
      */
     public function store(Request $request, Gallery $gallery)
     {
+        // Check if this is an AJAX request (from the gallery show page)
+        if ($request->expectsJson()) {
+            $validator = Validator::make($request->all(), [
+                'content' => 'required|string|max:1000',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Comment content is required',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            $comment = new Comment();
+            $comment->content = $request->content;
+            $comment->gallery_id = $gallery->id;
+            $comment->user_id = Auth::id(); // Use authenticated user ID
+            $comment->save();
+
+            // Load user relationship for response
+            $comment->load('user');
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Komentar berhasil ditambahkan!',
+                'comment' => $comment,
+                'comments_count' => $gallery->comments()->count()
+            ]);
+        }
+
+        // Handle regular form submission (for guests)
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:100',
             'content' => 'required|string|max:1000',
@@ -26,7 +58,7 @@ class CommentController extends Controller
                 ->withInput();
         }
 
-        // Store comment with guest name in session
+        // Store comment with guest name
         $comment = new Comment();
         $comment->content = $request->content;
         $comment->guest_name = $request->name;
@@ -35,6 +67,40 @@ class CommentController extends Controller
         $comment->save();
 
         return redirect()->back()->with('success', 'Komentar berhasil ditambahkan!');
+    }
+
+    /**
+     * Store comment via API (for authenticated users)
+     */
+    public function storeApi(Request $request, Gallery $gallery)
+    {
+        $validator = Validator::make($request->all(), [
+            'content' => 'required|string|max:1000',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Comment content is required',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        $comment = new Comment();
+        $comment->content = $request->content;
+        $comment->gallery_id = $gallery->id;
+        $comment->user_id = Auth::id(); // Use authenticated user ID
+        $comment->save();
+
+        // Load user relationship for response
+        $comment->load('user');
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Komentar berhasil ditambahkan!',
+            'comment' => $comment,
+            'comments_count' => $gallery->comments()->count()
+        ]);
     }
 
     /**

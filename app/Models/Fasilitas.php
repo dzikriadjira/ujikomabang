@@ -49,8 +49,16 @@ class Fasilitas extends Model
     public function getFeaturesAttribute($value)
     {
         if (is_string($value)) {
-            return json_decode($value, true) ?: [];
+            // Handle double encoded JSON
+            $decoded = json_decode($value, true);
+            if (is_string($decoded)) {
+                $decoded = json_decode($decoded, true);
+            }
+            return is_array($decoded) ? $decoded : [];
         }
-        return (array) $value;
+        if (is_array($value)) {
+            return $value;
+        }
+        return [];
     }
 }
